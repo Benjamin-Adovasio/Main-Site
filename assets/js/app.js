@@ -27,10 +27,10 @@ const SERVICE_META = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadServices();
+  loadDirectory();
 });
 
-async function loadServices() {
+async function loadDirectory() {
   try {
     const response = await fetch("/assets/data/services.json", {
       cache: "no-store"
@@ -41,15 +41,39 @@ async function loadServices() {
     }
 
     const data = await response.json();
-    const services = Array.isArray(data.core) ? data.core : [];
+    const serviceLines = Array.isArray(data.serviceLines) ? data.serviceLines : [];
+    const websites = Array.isArray(data.websites) ? data.websites : [];
+    const apps = Array.isArray(data.apps) ? data.apps : [];
 
-    renderServiceCount(services.length);
-    renderServiceLaunch(services);
-    renderServices(services);
+    renderServiceCount(serviceLines.length + websites.length + apps.length);
+    renderServiceLaunch(websites);
+    renderDirectoryGroup("grid-service-lines", serviceLines, {
+      emptyTitle: "Service lines unavailable",
+      emptyDescription: "Service line entries could not be loaded."
+    });
+    renderDirectoryGroup("grid-websites", websites, {
+      emptyTitle: "Website directory unavailable",
+      emptyDescription: "Website entries could not be loaded."
+    });
+    renderDirectoryGroup("grid-apps", apps, {
+      emptyTitle: "App Store listings unavailable",
+      emptyDescription: "App Store entries could not be loaded."
+    });
   } catch (error) {
     renderServiceCount(0);
     renderServiceLaunch([]);
-    renderServices([]);
+    renderDirectoryGroup("grid-service-lines", [], {
+      emptyTitle: "Service lines unavailable",
+      emptyDescription: "Service line entries could not be loaded."
+    });
+    renderDirectoryGroup("grid-websites", [], {
+      emptyTitle: "Website directory unavailable",
+      emptyDescription: "Website entries could not be loaded."
+    });
+    renderDirectoryGroup("grid-apps", [], {
+      emptyTitle: "App Store listings unavailable",
+      emptyDescription: "App Store entries could not be loaded."
+    });
   }
 }
 
@@ -65,12 +89,12 @@ function renderServiceLaunch(services) {
     return;
   }
 
-  const linkedServices = services.filter(service => Boolean(service.url)).slice(0, 6);
+  const linkedServices = services.slice(0, 6);
 
   if (linkedServices.length === 0) {
     root.innerHTML = `
       <article class="status-card">
-        <h3>Directory links unavailable</h3>
+        <h3>Website links unavailable</h3>
         <p>Refresh to try again.</p>
       </article>
     `;
@@ -99,98 +123,98 @@ function renderServiceLaunch(services) {
   applyReveal(root, ".service-link", 55);
 }
 
-function renderServices(services) {
-  const root = document.getElementById("grid-core");
+function renderDirectoryGroup(rootId, entries, options) {
+  const root = document.getElementById(rootId);
   if (!root) {
     return;
   }
 
-  if (services.length === 0) {
+  if (entries.length === 0) {
     root.innerHTML = `
       <article class="status-card">
-        <h3>Directory unavailable</h3>
-        <p>The service directory could not be loaded.</p>
+        <h3>${escapeHtml(options.emptyTitle)}</h3>
+        <p>${escapeHtml(options.emptyDescription)}</p>
       </article>
     `;
     applyReveal(root, ".status-card");
     return;
   }
 
-  root.innerHTML = services
-    .map((service, index) => renderServiceCard(service, index))
+  root.innerHTML = entries
+    .map((entry, index) => renderDirectoryCard(entry, index))
     .join("");
 
   applyReveal(root, ".service-card", 70);
 }
 
-function renderServiceCard(service, index) {
-  const meta = resolveServiceMeta(service);
-  const icon = ICONS[service.icon] || ICONS.cloud;
-  const hasUrl = Boolean(service.url);
-  const cardBody = `
-    <div class="card-top">
-      <span class="service-kicker">${escapeHtml(meta.label)}</span>
-      <div class="service-icon">
-        ${icon}
-      </div>
-    </div>
-    <h3>${escapeHtml(service.name)}</h3>
-    <p>${escapeHtml(service.desc || "")}</p>
-    <div class="service-footer">
-      <span class="service-domain">${escapeHtml(resolveServiceFooter(service))}</span>
-      <span class="service-arrow">${escapeHtml(resolveServiceAction(service, hasUrl))}</span>
-    </div>
-  `;
-  const style = `--service-accent: ${meta.accent}; --card-delay: ${index * 70}ms`;
-
-  if (!hasUrl) {
-    return `
-      <article class="card service-card is-static" style="${style}">
-        ${cardBody}
-      </article>
-    `;
-  }
+function renderDirectoryCard(entry, index) {
+  const meta = resolveServiceMeta(entry);
+  const icon = ICONS[entry.icon] || ICONS.cloud;
+  const href = escapeAttribute(entry.url);
+  const linkAttrs = buildLinkAttributes(entry.url);
 
   return `
     <a
       class="card service-card"
-      href="${escapeAttribute(service.url)}"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="${style}"
+      href="${href}"
+      ${linkAttrs}
+      style="--service-accent: ${meta.accent}; --card-delay: ${index * 70}ms"
     >
-      ${cardBody}
+      <div class="card-top">
+        <span class="service-kicker">${escapeHtml(meta.label)}</span>
+        <div class="service-icon">
+          ${icon}
+        </div>
+      </div>
+      <h3>${escapeHtml(entry.name)}</h3>
+      <p>${escapeHtml(entry.desc || "")}</p>
+      <div class="service-footer">
+        <span class="service-domain">${escapeHtml(resolveServiceFooter(entry))}</span>
+        <span class="service-arrow">${escapeHtml(resolveServiceAction(entry))}</span>
+      </div>
     </a>
   `;
 }
 
-function resolveServiceMeta(service) {
-  const fallback = SERVICE_META[service.icon] || SERVICE_META.cloud;
+function buildLinkAttributes(url) {
+  if (isExternalUrl(url)) {
+    return 'target="_blank" rel="noopener noreferrer"';
+  }
+
+  return "";
+}
+
+function isExternalUrl(url) {
+  return /^https?:\/\//i.test(String(url));
+}
+
+function resolveServiceMeta(entry) {
+  const fallback = SERVICE_META[entry.icon] || SERVICE_META.cloud;
 
   return {
-    label: service.label || fallback.label,
-    accent: service.accent || fallback.accent
+    label: entry.label || fallback.label,
+    accent: entry.accent || fallback.accent
   };
 }
 
-function resolveServiceFooter(service) {
-  if (service.footer) {
-    return service.footer;
+function resolveServiceFooter(entry) {
+  if (entry.footer) {
+    return entry.footer;
   }
 
-  if (service.url) {
-    return formatServiceHost(service.url);
+  if (entry.url) {
+    return formatServiceHost(entry.url);
   }
 
-  return "Adovasio service line";
+  return "Adovasio Technology LLC service line";
 }
 
-function resolveServiceAction(service, hasUrl) {
-  if (service.action) {
-    return service.action;
+function resolveServiceAction(entry) {
+  if (entry.action) {
+    return entry.action;
   }
 
-  return hasUrl ? "Open entry" : "Service overview";
+  return isExternalUrl(entry.url) ? "Login" : "Learn more";
 }
 
 function applyReveal(root, selector, step = 70) {

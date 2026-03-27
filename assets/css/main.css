@@ -671,6 +671,33 @@ select {
   font-size: 1rem;
 }
 
+.directory-stack {
+  display: grid;
+  gap: 52px;
+}
+
+.directory-group {
+  display: grid;
+  gap: 22px;
+}
+
+.directory-group-head {
+  max-width: 760px;
+}
+
+.directory-group-head h3 {
+  margin: 14px 0 0;
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.directory-group-head p:last-child {
+  margin: 14px 0 0;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
 .services-grid,
 .feature-grid,
 .status-grid,

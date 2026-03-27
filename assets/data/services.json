@@ -1,70 +1,70 @@
 {
-  "core": [
+  "serviceLines": [
     {
       "id": "hosting",
       "name": "Web Hosting",
-      "desc": "Managed hosting for websites, portals, and online tools across the Adovasio ecosystem.",
+      "desc": "Managed hosting for websites, portals, and online tools across the Adovasio Technology LLC ecosystem.",
+      "url": "/services/web-hosting.html",
       "icon": "cloud",
       "label": "Hosting",
-      "footer": "Managed infrastructure",
-      "action": "Service line"
+      "footer": "Service overview",
+      "action": "Learn more"
     },
     {
       "id": "cabling",
       "name": "Cable Runs and Low-Voltage",
       "desc": "Clean routing, terminations, labeling, and dependable on-site infrastructure work for physical environments.",
+      "url": "/services/cable-runs.html",
       "icon": "cable",
       "label": "Infrastructure",
-      "footer": "On-site service",
-      "action": "Service line"
+      "footer": "Service overview",
+      "action": "Learn more"
     },
     {
       "id": "development",
       "name": "App Development",
       "desc": "Custom mobile and web applications built for operational needs, internal tools, and product ideas.",
+      "url": "/services/app-development.html",
       "icon": "device",
       "label": "Development",
-      "footer": "Product work",
-      "action": "Service line"
+      "footer": "Service overview",
+      "action": "Learn more"
     },
     {
       "id": "network-installs",
       "name": "Network Installs and Cleanup",
       "desc": "Hands-on setup for routers, switches, access points, cameras, patching, and organized network spaces.",
+      "url": "/services/network-installs.html",
       "icon": "network",
       "label": "Deployment",
-      "footer": "Field support",
-      "action": "Service line"
-    },
-    {
-      "id": "app-store-projects",
-      "name": "App Store Projects",
-      "desc": "Published and in-progress mobile product work presented alongside hosting and infrastructure services.",
-      "icon": "device",
-      "label": "Apps",
-      "footer": "Mobile portfolio",
-      "action": "Project line"
-    },
+      "footer": "Service overview",
+      "action": "Learn more"
+    }
+  ],
+  "websites": [
     {
       "id": "vpn",
       "name": "Adovasio VPN",
       "desc": "Remote access portal",
       "url": "https://vpn.adovasio.com:4445",
-      "icon": "shield"
+      "icon": "shield",
+      "action": "Login"
     },
     {
       "id": "sso",
       "name": "Adovasio SSO",
       "desc": "Single sign-on portal",
       "url": "https://sso.adovasio.com",
-      "icon": "key"
+      "icon": "key",
+      "action": "Login"
     },
     {
       "id": "cloud",
       "name": "Nextcloud",
       "desc": "Files and sync",
       "url": "https://cloud.adovasio.com",
-      "icon": "cloud"
+      "icon": "cloud",
+      "action": "Login"
     },
     {
       "id": "git",
@@ -72,42 +72,60 @@
       "desc": "Code and repo hosting",
       "url": "https://git.adovasio.com",
       "icon": "cloud",
-      "label": "Code"
+      "label": "Code",
+      "action": "Login"
     },
     {
       "id": "print",
       "name": "Adovasio Print",
       "desc": "Printing portal",
       "url": "https://print.adovasio.com",
-      "icon": "printer"
+      "icon": "printer",
+      "action": "Login"
     },
     {
       "id": "photos",
       "name": "Adovasio Photos",
       "desc": "Photo backup and access",
       "url": "https://photos.adovasio.com",
-      "icon": "camera"
+      "icon": "camera",
+      "action": "Login"
     },
     {
       "id": "time",
       "name": "Adovasio Time",
       "desc": "Hosted NTP service",
       "url": "https://time.adovasio.com",
-      "icon": "clock"
+      "icon": "clock",
+      "action": "Login"
     },
     {
       "id": "notes",
       "name": "Adovasio Notes",
       "desc": "Notes sync and workspace tools",
       "url": "https://notes.adovasio.com",
-      "icon": "notes"
+      "icon": "notes",
+      "action": "Login"
     },
     {
       "id": "energy",
       "name": "Energy Monitoring",
       "desc": "Power and device monitoring",
       "url": "https://energy.adovasio.com",
-      "icon": "energy"
+      "icon": "energy",
+      "action": "Login"
+    }
+  ],
+  "apps": [
+    {
+      "id": "georgie-ai",
+      "name": "Georgie AI",
+      "desc": "Available on the Apple App Store.",
+      "url": "https://apps.apple.com/us/app/georgie-ai/id6761129715",
+      "icon": "device",
+      "label": "App Store",
+      "footer": "Apple App Store",
+      "action": "View on App Store"
     }
   ]
 }
