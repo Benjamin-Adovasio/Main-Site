@@ -1,6 +1,51 @@
 {
   "core": [
     {
+      "id": "hosting",
+      "name": "Web Hosting",
+      "desc": "Managed hosting for websites, portals, and online tools across the Adovasio ecosystem.",
+      "icon": "cloud",
+      "label": "Hosting",
+      "footer": "Managed infrastructure",
+      "action": "Service line"
+    },
+    {
+      "id": "cabling",
+      "name": "Cable Runs and Low-Voltage",
+      "desc": "Clean routing, terminations, labeling, and dependable on-site infrastructure work for physical environments.",
+      "icon": "cable",
+      "label": "Infrastructure",
+      "footer": "On-site service",
+      "action": "Service line"
+    },
+    {
+      "id": "development",
+      "name": "App Development",
+      "desc": "Custom mobile and web applications built for operational needs, internal tools, and product ideas.",
+      "icon": "device",
+      "label": "Development",
+      "footer": "Product work",
+      "action": "Service line"
+    },
+    {
+      "id": "network-installs",
+      "name": "Network Installs and Cleanup",
+      "desc": "Hands-on setup for routers, switches, access points, cameras, patching, and organized network spaces.",
+      "icon": "network",
+      "label": "Deployment",
+      "footer": "Field support",
+      "action": "Service line"
+    },
+    {
+      "id": "app-store-projects",
+      "name": "App Store Projects",
+      "desc": "Published and in-progress mobile product work presented alongside hosting and infrastructure services.",
+      "icon": "device",
+      "label": "Apps",
+      "footer": "Mobile portfolio",
+      "action": "Project line"
+    },
+    {
       "id": "vpn",
       "name": "Adovasio VPN",
       "desc": "Remote access portal",
@@ -22,18 +67,19 @@
       "icon": "cloud"
     },
     {
+      "id": "git",
+      "name": "Adovasio Git",
+      "desc": "Code and repo hosting",
+      "url": "https://git.adovasio.com",
+      "icon": "cloud",
+      "label": "Code"
+    },
+    {
       "id": "print",
       "name": "Adovasio Print",
       "desc": "Printing portal",
       "url": "https://print.adovasio.com",
       "icon": "printer"
-    },
-    {
-      "id": "git",
-      "name": "Adovasio Git",
-      "desc": "Code and repo hosting",
-      "url": "https://git.adovasio.com",
-      "icon": "cloud"
     },
     {
       "id": "photos",
@@ -50,14 +96,14 @@
       "icon": "clock"
     },
     {
-      "id": "joplin",
+      "id": "notes",
       "name": "Adovasio Notes",
-      "desc": "Notes sync",
+      "desc": "Notes sync and workspace tools",
       "url": "https://notes.adovasio.com",
       "icon": "notes"
     },
     {
-      "id": "cyberpower",
+      "id": "energy",
       "name": "Energy Monitoring",
       "desc": "Power and device monitoring",
       "url": "https://energy.adovasio.com",
