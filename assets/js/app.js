@@ -13,20 +13,47 @@ const ICONS = {
 };
 
 const SERVICE_META = {
-  shield: { label: "Access", accent: "37, 99, 235" },
-  key: { label: "Identity", accent: "96, 165, 250" },
-  cloud: { label: "Hosting", accent: "56, 189, 248" },
-  printer: { label: "Print", accent: "14, 165, 233" },
-  camera: { label: "Media", accent: "59, 130, 246" },
-  clock: { label: "Utility", accent: "147, 197, 253" },
-  notes: { label: "Workspace", accent: "125, 211, 252" },
-  energy: { label: "Monitoring", accent: "96, 165, 250" },
-  cable: { label: "Infrastructure", accent: "59, 130, 246" },
-  device: { label: "Apps", accent: "37, 99, 235" },
-  network: { label: "Deployment", accent: "14, 165, 233" }
+  shield: { label: "Access", accent: "80 167 255" },
+  key: { label: "Identity", accent: "124 220 255" },
+  cloud: { label: "Hosting", accent: "59 152 255" },
+  printer: { label: "Print", accent: "41 192 229" },
+  camera: { label: "Media", accent: "124 220 255" },
+  clock: { label: "Utility", accent: "151 229 255" },
+  notes: { label: "Workspace", accent: "110 209 255" },
+  energy: { label: "Monitoring", accent: "43 196 164" },
+  cable: { label: "Infrastructure", accent: "38 191 233" },
+  device: { label: "Apps", accent: "84 149 255" },
+  network: { label: "Deployment", accent: "59 152 255" }
+};
+
+const GROUP_META = {
+  websites: {
+    rootId: "grid-websites",
+    kind: "Hosted Site",
+    emptyTitle: "Hosted sites unavailable",
+    emptyDescription: "The hosted properties list could not be loaded right now."
+  },
+  serviceLines: {
+    rootId: "grid-service-lines",
+    kind: "Service Line",
+    emptyTitle: "Service lines unavailable",
+    emptyDescription: "The Adovasio service pages could not be loaded right now."
+  },
+  apps: {
+    rootId: "grid-apps",
+    kind: "Published App",
+    emptyTitle: "Apps unavailable",
+    emptyDescription: "The published apps list could not be loaded right now."
+  }
+};
+
+const directoryState = {
+  query: "",
+  filter: "all"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupDirectoryControls();
   loadDirectory();
 });
 
@@ -37,204 +64,276 @@ async function loadDirectory() {
     });
 
     if (!response.ok) {
-      throw new Error("services");
+      throw new Error("directory-data");
     }
 
     const data = await response.json();
-    const serviceLines = Array.isArray(data.serviceLines) ? data.serviceLines : [];
     const websites = Array.isArray(data.websites) ? data.websites : [];
+    const serviceLines = Array.isArray(data.serviceLines) ? data.serviceLines : [];
     const apps = Array.isArray(data.apps) ? data.apps : [];
 
-    renderServiceCount(serviceLines.length + websites.length + apps.length);
-    renderServiceLaunch(websites);
-    renderDirectoryGroup("grid-service-lines", serviceLines, {
-      emptyTitle: "Service lines unavailable",
-      emptyDescription: "Service line entries could not be loaded."
+    updateCounts({
+      websites: websites.length,
+      serviceLines: serviceLines.length,
+      apps: apps.length
     });
-    renderDirectoryGroup("grid-websites", websites, {
-      emptyTitle: "Website directory unavailable",
-      emptyDescription: "Website entries could not be loaded."
-    });
-    renderDirectoryGroup("grid-apps", apps, {
-      emptyTitle: "App Store listings unavailable",
-      emptyDescription: "App Store entries could not be loaded."
-    });
+
+    renderFeaturedLinks(websites);
+    renderDirectoryGroup("websites", websites);
+    renderDirectoryGroup("serviceLines", serviceLines);
+    renderDirectoryGroup("apps", apps);
+    applyDirectoryFilters();
+    refreshMotion();
   } catch (error) {
-    renderServiceCount(0);
-    renderServiceLaunch([]);
-    renderDirectoryGroup("grid-service-lines", [], {
-      emptyTitle: "Service lines unavailable",
-      emptyDescription: "Service line entries could not be loaded."
+    updateCounts({
+      websites: 0,
+      serviceLines: 0,
+      apps: 0
     });
-    renderDirectoryGroup("grid-websites", [], {
-      emptyTitle: "Website directory unavailable",
-      emptyDescription: "Website entries could not be loaded."
-    });
-    renderDirectoryGroup("grid-apps", [], {
-      emptyTitle: "App Store listings unavailable",
-      emptyDescription: "App Store entries could not be loaded."
-    });
+
+    renderFeaturedLinks([]);
+    renderDirectoryGroup("websites", []);
+    renderDirectoryGroup("serviceLines", []);
+    renderDirectoryGroup("apps", []);
+    applyDirectoryFilters();
+    refreshMotion();
   }
 }
 
-function renderServiceCount(count) {
-  document.querySelectorAll("[data-service-count]").forEach(node => {
-    node.textContent = String(count);
+function setupDirectoryControls() {
+  const search = document.getElementById("directory-search");
+  const filterButtons = document.querySelectorAll("[data-directory-filter]");
+
+  if (search) {
+    search.addEventListener("input", event => {
+      directoryState.query = String(event.target.value || "").trim().toLowerCase();
+      applyDirectoryFilters();
+    });
+  }
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      directoryState.filter = button.dataset.directoryFilter || "all";
+
+      filterButtons.forEach(node => {
+        const isActive = node === button;
+        node.classList.toggle("is-active", isActive);
+        node.setAttribute("aria-pressed", String(isActive));
+      });
+
+      applyDirectoryFilters();
+    });
   });
 }
 
-function renderServiceLaunch(services) {
-  const root = document.getElementById("service-launch");
+function updateCounts(counts) {
+  setText("[data-website-count]", counts.websites);
+  setText("[data-service-count]", counts.serviceLines);
+  setText("[data-app-count]", counts.apps);
+}
+
+function renderFeaturedLinks(websites) {
+  const root = document.getElementById("featured-links");
   if (!root) {
     return;
   }
 
-  const linkedServices = services.slice(0, 6);
+  const featured = websites.slice(0, 4);
 
-  if (linkedServices.length === 0) {
+  if (featured.length === 0) {
     root.innerHTML = `
-      <article class="status-card">
-        <h3>Website links unavailable</h3>
-        <p>Refresh to try again.</p>
+      <article class="state-card" data-animate>
+        <p class="panel-label">Unavailable</p>
+        <h3>Featured links could not be loaded.</h3>
+        <p>Refresh the page to try again.</p>
       </article>
     `;
-    applyReveal(root, ".status-card");
     return;
   }
 
-  root.innerHTML = linkedServices
-    .map((service, index) => {
-      const host = formatServiceHost(service.url);
+  root.innerHTML = featured
+    .map((entry, index) => {
+      const host = formatHost(entry.url);
       return `
         <a
-          class="service-link"
-          href="${escapeAttribute(service.url)}"
+          class="featured-link"
+          href="${escapeAttribute(entry.url)}"
           target="_blank"
           rel="noopener noreferrer"
+          data-animate
           style="--card-delay: ${index * 55}ms"
         >
-          <strong>${escapeHtml(service.name)}</strong>
+          <strong>${escapeHtml(entry.name)}</strong>
           <span>${escapeHtml(host)}</span>
         </a>
       `;
     })
     .join("");
-
-  applyReveal(root, ".service-link", 55);
 }
 
-function renderDirectoryGroup(rootId, entries, options) {
-  const root = document.getElementById(rootId);
+function renderDirectoryGroup(groupKey, entries) {
+  const meta = GROUP_META[groupKey];
+  const root = document.getElementById(meta.rootId);
+
   if (!root) {
     return;
   }
 
   if (entries.length === 0) {
     root.innerHTML = `
-      <article class="status-card">
-        <h3>${escapeHtml(options.emptyTitle)}</h3>
-        <p>${escapeHtml(options.emptyDescription)}</p>
+      <article class="state-card" data-animate>
+        <p class="panel-label">Unavailable</p>
+        <h3>${escapeHtml(meta.emptyTitle)}</h3>
+        <p>${escapeHtml(meta.emptyDescription)}</p>
       </article>
     `;
-    applyReveal(root, ".status-card");
     return;
   }
 
   root.innerHTML = entries
-    .map((entry, index) => renderDirectoryCard(entry, index))
+    .map((entry, index) => renderDirectoryCard(entry, groupKey, index))
     .join("");
-
-  applyReveal(root, ".service-card", 70);
 }
 
-function renderDirectoryCard(entry, index) {
-  const meta = resolveServiceMeta(entry);
+function renderDirectoryCard(entry, groupKey, index) {
+  const serviceMeta = resolveServiceMeta(entry);
   const icon = ICONS[entry.icon] || ICONS.cloud;
   const href = escapeAttribute(entry.url);
-  const linkAttrs = buildLinkAttributes(entry.url);
+  const footer = resolveFooter(entry);
+  const action = resolveAction(entry);
+  const searchText = buildSearchText(entry, groupKey, serviceMeta);
 
   return `
     <a
-      class="card service-card"
+      class="directory-card"
       href="${href}"
-      ${linkAttrs}
-      style="--service-accent: ${meta.accent}; --card-delay: ${index * 70}ms"
+      ${buildLinkAttributes(entry.url)}
+      data-directory-card
+      data-group="${escapeAttribute(groupKey)}"
+      data-search="${escapeAttribute(searchText)}"
+      data-animate
+      style="--card-accent: ${serviceMeta.accent}; --card-delay: ${index * 65}ms"
     >
       <div class="card-top">
-        <span class="service-kicker">${escapeHtml(meta.label)}</span>
-        <div class="service-icon">
-          ${icon}
-        </div>
+        <span class="card-kind">${escapeHtml(GROUP_META[groupKey].kind)}</span>
+        <span class="card-tag">${escapeHtml(entry.label || serviceMeta.label)}</span>
+      </div>
+      <div class="card-icon">
+        ${icon}
       </div>
       <h3>${escapeHtml(entry.name)}</h3>
       <p>${escapeHtml(entry.desc || "")}</p>
-      <div class="service-footer">
-        <span class="service-domain">${escapeHtml(resolveServiceFooter(entry))}</span>
-        <span class="service-arrow">${escapeHtml(resolveServiceAction(entry))}</span>
+      <div class="card-footer">
+        <span>${escapeHtml(footer)}</span>
+        <strong>${escapeHtml(action)}</strong>
       </div>
     </a>
   `;
 }
 
-function buildLinkAttributes(url) {
-  if (isExternalUrl(url)) {
-    return 'target="_blank" rel="noopener noreferrer"';
+function applyDirectoryFilters() {
+  const cards = Array.from(document.querySelectorAll("[data-directory-card]"));
+  const sections = Array.from(document.querySelectorAll("[data-directory-section]"));
+  const emptyState = document.getElementById("directory-empty");
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const matchesFilter =
+      directoryState.filter === "all" || card.dataset.group === directoryState.filter;
+    const haystack = String(card.dataset.search || "");
+    const matchesQuery =
+      directoryState.query.length === 0 || haystack.includes(directoryState.query);
+    const visible = matchesFilter && matchesQuery;
+
+    card.hidden = !visible;
+
+    if (visible) {
+      visibleCount += 1;
+    }
+  });
+
+  sections.forEach(section => {
+    const sectionCards = section.querySelectorAll("[data-directory-card]");
+    if (sectionCards.length === 0) {
+      section.hidden = false;
+      return;
+    }
+
+    const hasVisibleCard = Array.from(sectionCards).some(card => !card.hidden);
+    section.hidden = !hasVisibleCard;
+  });
+
+  if (emptyState) {
+    emptyState.hidden = cards.length === 0 || visibleCount > 0;
   }
 
-  return "";
+  setText("[data-results-count]", visibleCount);
+}
+
+function buildSearchText(entry, groupKey, meta) {
+  return [
+    GROUP_META[groupKey].kind,
+    entry.name,
+    entry.desc,
+    entry.label,
+    meta.label,
+    entry.footer,
+    entry.url,
+    resolveFooter(entry)
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function resolveServiceMeta(entry) {
+  return SERVICE_META[entry.icon] || SERVICE_META.cloud;
+}
+
+function resolveFooter(entry) {
+  if (entry.footer) {
+    return entry.footer;
+  }
+
+  if (entry.url) {
+    return formatHost(entry.url);
+  }
+
+  return "Adovasio entry";
+}
+
+function resolveAction(entry) {
+  if (entry.action) {
+    return entry.action;
+  }
+
+  return isExternalUrl(entry.url) ? "Open" : "Learn more";
+}
+
+function buildLinkAttributes(url) {
+  return isExternalUrl(url) ? 'target="_blank" rel="noopener noreferrer"' : "";
 }
 
 function isExternalUrl(url) {
   return /^https?:\/\//i.test(String(url));
 }
 
-function resolveServiceMeta(entry) {
-  const fallback = SERVICE_META[entry.icon] || SERVICE_META.cloud;
-
-  return {
-    label: entry.label || fallback.label,
-    accent: entry.accent || fallback.accent
-  };
-}
-
-function resolveServiceFooter(entry) {
-  if (entry.footer) {
-    return entry.footer;
-  }
-
-  if (entry.url) {
-    return formatServiceHost(entry.url);
-  }
-
-  return "Adovasio Technology LLC service line";
-}
-
-function resolveServiceAction(entry) {
-  if (entry.action) {
-    return entry.action;
-  }
-
-  return isExternalUrl(entry.url) ? "Login" : "Learn more";
-}
-
-function applyReveal(root, selector, step = 70) {
-  root.querySelectorAll(selector).forEach((element, index) => {
-    element.setAttribute("data-animate", "");
-
-    if (!element.style.getPropertyValue("--card-delay")) {
-      element.style.setProperty("--card-delay", `${index * step}ms`);
-    }
-  });
-
-  window.AdovasioMotion?.refresh?.(root);
-}
-
-function formatServiceHost(value) {
+function formatHost(value) {
   try {
     return new URL(value).host;
   } catch (error) {
     return String(value).replace(/^https?:\/\//, "");
   }
+}
+
+function setText(selector, value) {
+  document.querySelectorAll(selector).forEach(node => {
+    node.textContent = String(value);
+  });
+}
+
+function refreshMotion() {
+  window.AdovasioMotion?.refresh?.(document.body);
 }
 
 function escapeHtml(value) {
