@@ -289,7 +289,7 @@ input {
 
 .hero-copy h1 {
   max-width: 14ch;
-  margin: 18px auto 0;
+  margin: 0 auto;
   font-size: clamp(3.2rem, 8vw, 6.3rem);
   line-height: 0.95;
 }
