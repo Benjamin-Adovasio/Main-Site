@@ -511,8 +511,7 @@ input {
 }
 
 .directory-sidebar {
-  position: sticky;
-  top: 28px;
+  position: static;
   display: grid;
   gap: 18px;
 }
