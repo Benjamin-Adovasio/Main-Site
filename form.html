@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Email for a Quote | Adovasio Technology LLC</title>
+  <meta charset="utf-8" />
+  <title>Contact Adovasio Technology LLC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Email info@adovasio.com for 1099 contract IT work, wire runs, on-site installs, and questions about Adovasio websites and hosted tools."
+    content="Contact Adovasio Technology LLC by email for questions about hosted portals, published apps, access, quotes, and project requests."
   />
+  <meta name="theme-color" content="#f7f9fc" />
   <link rel="icon" href="/assets/images/adovasio-round-icon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/images/adovasio-round-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,378 +17,229 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
     rel="stylesheet"
   />
+  <link rel="stylesheet" href="/assets/css/home.css?v=5" />
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0b1220;
-      --bg-soft: #111827;
-      --text: #e5e7eb;
-      --muted: #a8b3c7;
-      --line: rgba(148, 163, 184, 0.18);
-      --accent: #2563eb;
-      --accent-soft: #60a5fa;
-      --shadow: 0 28px 80px rgba(2, 6, 23, 0.34);
+    .contact-page {
+      padding: 48px 0 58px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 12% 0%, rgba(37, 99, 235, 0.28), transparent 32%),
-        radial-gradient(circle at 88% 12%, rgba(96, 165, 250, 0.18), transparent 28%),
-        linear-gradient(180deg, #020617 0%, #0b1220 42%, #111827 100%);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .shell {
-      width: min(1120px, calc(100% - 24px));
-      margin: 0 auto;
-      padding: 20px 0 48px;
-    }
-
-    .topbar {
-      position: static;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 18px;
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(11, 18, 32, 0.78);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      min-width: 0;
-    }
-
-    .brand-logo-shell {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 16px;
-      border-radius: 20px;
-      background: rgba(248, 251, 255, 0.98);
-      border: 1px solid rgba(191, 219, 254, 0.42);
-      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.2);
-    }
-
-    .brand-logo {
-      display: block;
-      width: clamp(230px, 28vw, 340px);
-      height: auto;
-      object-fit: contain;
-    }
-
-    .back-link {
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(96, 165, 250, 0.28);
-      background: rgba(37, 99, 235, 0.14);
-      color: #eff6ff;
-      font-weight: 700;
-    }
-
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .mail-link {
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(96, 165, 250, 0.34);
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(96, 165, 250, 0.9));
-      color: #f8fbff;
-      font-weight: 800;
-      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.24);
-    }
-
-    .auth-link {
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(96, 165, 250, 0.28);
-      background: rgba(255, 255, 255, 0.05);
-      color: #eff6ff;
-      font-weight: 700;
-    }
-
-    .page {
+    .contact-hero {
       display: grid;
-      grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
-      gap: 24px;
-      margin-top: 24px;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.62fr);
+      gap: 28px;
+      align-items: stretch;
     }
 
-    .intro,
-    .contact-shell {
-      border-radius: 32px;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+    .contact-copy,
+    .contact-panel,
+    .detail-card {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--surface);
     }
 
-    .intro {
+    .contact-copy {
+      display: grid;
+      align-content: center;
       padding: 32px;
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(11, 18, 32, 0.92));
     }
 
-    .eyebrow {
-      color: #93c5fd;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.78rem;
-      font-weight: 800;
-    }
-
-    h1 {
-      margin: 16px 0 0;
-      font-size: clamp(2.2rem, 5vw, 4rem);
+    .contact-copy h1 {
+      max-width: 12ch;
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
       line-height: 1;
-      letter-spacing: -0.05em;
     }
 
-    .intro p {
-      margin: 18px 0 0;
+    .contact-copy p {
+      max-width: 650px;
+      margin: 20px 0 0;
       color: var(--muted);
+      font-size: clamp(1.02rem, 1.6vw, 1.16rem);
       line-height: 1.7;
-    }
-
-    .intro ul {
-      margin: 24px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 14px;
-    }
-
-    .intro li {
-      display: flex;
-      gap: 12px;
-      color: #e5eefc;
-      line-height: 1.55;
-    }
-
-    .intro li::before {
-      content: "";
-      width: 10px;
-      height: 10px;
-      margin-top: 0.45rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
-      flex: none;
-    }
-
-    .contact-shell {
-      padding: 18px;
-      background: linear-gradient(180deg, rgba(248, 251, 255, 0.98), rgba(231, 238, 247, 0.94));
-    }
-
-    .contact-card {
-      display: grid;
-      gap: 18px;
-      height: 100%;
-      padding: 28px;
-      border-radius: 24px;
-      background: #f8fbff;
-      color: #0f172a;
-    }
-
-    .contact-card h2 {
-      margin: 0;
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.05em;
-    }
-
-    .contact-card p {
-      margin: 0;
-      color: #475569;
-      line-height: 1.65;
-    }
-
-    .contact-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 12px;
-    }
-
-    .contact-list li {
-      padding: 14px 16px;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      background: rgba(37, 99, 235, 0.06);
-      color: #1e293b;
-      line-height: 1.55;
     }
 
     .contact-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 8px;
+      margin-top: 28px;
     }
 
-    .contact-button,
-    .contact-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 20px;
-      border-radius: 999px;
-      font-weight: 800;
+    .contact-panel {
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
     }
 
-    .contact-button {
-      background: linear-gradient(135deg, #2563eb, #60a5fa);
-      color: #f8fbff;
-      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.24);
+    .contact-panel h2,
+    .detail-card h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+      line-height: 1.15;
     }
 
-    .contact-secondary {
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      background: rgba(15, 23, 42, 0.04);
-      color: #0f172a;
+    .contact-panel p,
+    .detail-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
     }
 
-    .contact-note {
-      padding: 16px 18px;
-      border-radius: 20px;
-      background: #dbeafe;
-      color: #1d4ed8;
-      font-weight: 700;
+    .contact-list,
+    .detail-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    @media (max-width: 860px) {
-      .page {
+    .contact-list li,
+    .detail-list li {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--text);
+      background: var(--surface-soft);
+      line-height: 1.55;
+    }
+
+    .contact-list strong,
+    .detail-list strong {
+      color: var(--ink);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .detail-card {
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .contact-hero,
+      .detail-grid {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 640px) {
-      .shell {
-        width: min(1120px, calc(100% - 16px));
-        padding-top: 12px;
+      .contact-page {
+        padding: 34px 0 44px;
       }
 
-      .topbar {
-        flex-wrap: wrap;
+      .contact-copy,
+      .contact-panel,
+      .detail-card {
+        padding: 18px;
       }
 
-      .topbar-actions,
-      .auth-link,
-      .mail-link,
-      .back-link {
-        width: 100%;
-      }
-
-      .brand,
-      .brand-logo-shell,
-      .brand-logo {
-        width: 100%;
-      }
-
-      .intro,
-      .contact-shell {
-        padding: 20px;
-        border-radius: 26px;
+      .contact-copy h1 {
+        font-size: clamp(2.25rem, 12vw, 3.4rem);
       }
 
       .contact-actions {
+        align-items: stretch;
         flex-direction: column;
-      }
-
-      .contact-button,
-      .contact-secondary {
-        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header class="topbar">
-      <a class="brand" href="index.html">
-        <span class="brand-logo-shell">
+  <div class="page-shell">
+    <header class="site-header" id="site-header">
+      <a class="brand-lockup" href="/index.html#top" aria-label="Adovasio home">
+        <span class="brand-logo-frame">
           <img
-            class="brand-logo"
+            class="brand-primary-logo"
             src="/assets/images/adovasio-primary-logo-transparent.png"
             alt="Adovasio Technology LLC"
             width="1536"
-            height="340"
+            height="226"
           />
         </span>
       </a>
-      <div class="topbar-actions">
-        <a
-          class="auth-link"
-          href="https://sso.adovasio.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Sign In / Sign Up
-        </a>
-        <a class="mail-link" href="mailto:info@adovasio.com?subject=Quote%20Request">
-          Email info@adovasio.com
-        </a>
-        <a class="back-link" href="index.html">Back to homepage</a>
-      </div>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/index.html#directory">Directory</a>
+        <a href="/form.html">Contact</a>
+      </nav>
+
+      <a class="button button-primary header-cta" href="mailto:info@adovasio.com?subject=Project%20Inquiry">
+        Email Adovasio
+      </a>
     </header>
 
-    <main class="page">
-      <section class="intro">
-        <p class="eyebrow">Quotes</p>
-        <h1>Email info@adovasio.com for a quote.</h1>
-        <p>Adovasio focuses on 1099 contract IT work like wire runs, low-voltage installs, equipment setup, and practical hands-on help.</p>
-        <ul>
-          <li>Wire runs, patching, and basic low-voltage work</li>
-          <li>Routers, access points, cameras, printers, and workstation installs</li>
-          <li>Questions about any Adovasio website, portal, or hosted tool</li>
-        </ul>
-      </section>
-
-      <section class="contact-shell">
-        <div class="contact-card">
-          <p class="eyebrow">Email</p>
-          <h2>Email info@adovasio.com to request a quote.</h2>
-          <p>Send the job scope, timeline, and location to info@adovasio.com for quotes and project requests.</p>
-          <ul class="contact-list">
-            <li><strong>Email:</strong> info@adovasio.com</li>
-            <li><strong>Best for:</strong> 1099 contract IT work, wire runs, installs, and hosted site questions</li>
-            <li><strong>Helpful details:</strong> site name, work needed, deadline, and where the job is located</li>
-          </ul>
+    <main class="contact-page">
+      <section class="contact-hero">
+        <div class="contact-copy">
+          <h1>Contact Adovasio.</h1>
+          <p>
+            Email info@adovasio.com for access questions, hosted destination help, app questions,
+            quotes, or project requests.
+          </p>
           <div class="contact-actions">
-            <a
-              class="contact-button"
-              href="mailto:info@adovasio.com?subject=Quote%20Request"
-            >
+            <a class="button button-primary" href="mailto:info@adovasio.com?subject=Project%20Inquiry">
               Email info@adovasio.com
             </a>
-            <a class="contact-secondary" href="index.html#directory">View Website Directory</a>
+            <a class="button button-secondary" href="/index.html#directory">
+              View Directory
+            </a>
           </div>
-          <div class="contact-note">Email is the quote path for Adovasio projects and service requests.</div>
+        </div>
+
+        <aside class="contact-panel" aria-label="Contact details">
+          <p class="panel-label">Email</p>
+          <h2>The fastest path is a clear message.</h2>
+          <p>
+            Include the destination, app, or project you are asking about so the reply can start in
+            the right place.
+          </p>
+          <ul class="contact-list">
+            <li><strong>Email:</strong> info@adovasio.com</li>
+            <li><strong>For access:</strong> include the portal or app name.</li>
+            <li><strong>For project work:</strong> include scope, location, timing, and useful links.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h2>Directory questions</h2>
+            <p>Use this when a hosted tool, login, app listing, or destination needs attention.</p>
+            <ul class="detail-list">
+              <li><strong>Helpful:</strong> destination name, URL, device, and what happened.</li>
+              <li><strong>Examples:</strong> VPN, SSO, cloud, notes, print, or App Store listings.</li>
+            </ul>
+          </article>
+
+          <article class="detail-card">
+            <h2>Project questions</h2>
+            <p>Use this for quotes, on-site work, app ideas, or infrastructure requests.</p>
+            <ul class="detail-list">
+              <li><strong>Helpful:</strong> scope, deadline, location, photos, and budget range.</li>
+              <li><strong>Examples:</strong> setup, cleanup, cabling, hosting, or custom app work.</li>
+            </ul>
+          </article>
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <span>&copy; 2026 Adovasio Technology LLC. All rights reserved.</span>
+      <span><a href="mailto:info@adovasio.com">info@adovasio.com</a></span>
+    </footer>
   </div>
 </body>
 </html>
