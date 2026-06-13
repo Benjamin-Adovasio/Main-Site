@@ -184,14 +184,13 @@ button {
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.48fr);
   gap: 48px;
   align-items: center;
-  padding: 82px 0 58px;
+  padding: 48px 0 42px;
 }
 
 .hero-copy {
   max-width: 760px;
 }
 
-.eyebrow,
 .panel-label {
   margin: 0;
   color: var(--accent);
@@ -202,11 +201,8 @@ button {
 }
 
 .hero-copy h1,
-.section-intro h2,
-.group-head h2,
 .empty-state h2,
 .quote-card h2,
-.path-card h3,
 .directory-card h3,
 .state-card h3 {
   margin: 0;
@@ -217,13 +213,12 @@ button {
 .hero-copy h1 {
   margin-top: 14px;
   max-width: 12ch;
-  font-size: clamp(2.7rem, 6vw, 5.2rem);
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
   line-height: 1;
   font-weight: 800;
 }
 
 .hero-copy h1:first-child,
-.section-intro h2:first-child,
 .directory-heading h2:first-child,
 .quote-card h2:first-child {
   margin-top: 0;
@@ -297,13 +292,7 @@ button {
   border-top: 1px solid var(--line);
 }
 
-.section-intro {
-  max-width: 720px;
-}
-
-.section-intro h2,
 .directory-heading h2,
-.group-head h2,
 .quote-card h2 {
   margin-top: 10px;
   font-size: clamp(2rem, 3.8vw, 3.2rem);
@@ -311,76 +300,19 @@ button {
   font-weight: 800;
 }
 
-.section-intro p:last-child,
 .directory-heading p,
-.group-head p,
 .quote-card p,
 .empty-state p,
 .state-card p,
-.directory-card p,
-.path-card p {
+.directory-card p {
   color: var(--muted);
   line-height: 1.65;
-}
-
-.path-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.path-card {
-  display: grid;
-  align-content: start;
-  gap: 12px;
-  min-height: 220px;
-  padding: 22px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  color: inherit;
-  text-decoration: none;
-  background: var(--surface);
-  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
-  transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
-}
-
-.path-card:hover,
-.path-card:focus-visible {
-  border-color: var(--accent);
-  box-shadow: var(--shadow);
-  transform: translateY(-2px);
-  outline: none;
-}
-
-.path-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius);
-  color: var(--accent);
-  background: var(--accent-soft);
-  font-size: 0.86rem;
-  font-weight: 800;
-}
-
-.path-card h3 {
-  font-size: 1.25rem;
-  line-height: 1.25;
-}
-
-.path-card p {
-  margin: 0;
 }
 
 .directory-shell {
   display: grid;
   gap: 22px;
+  padding-top: 46px;
 }
 
 .directory-heading {
@@ -403,8 +335,7 @@ button {
   max-width: 700px;
 }
 
-.directory-count,
-.group-count {
+.directory-count {
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
@@ -413,8 +344,7 @@ button {
   white-space: nowrap;
 }
 
-.directory-count strong,
-.group-count strong {
+.directory-count strong {
   color: var(--accent);
   font-size: 1.6rem;
 }
@@ -517,30 +447,9 @@ button {
   border-color: var(--accent);
 }
 
-.directory-groups {
-  display: grid;
-  gap: 42px;
-}
-
-.directory-group {
+.directory-list {
   display: grid;
   gap: 18px;
-}
-
-.group-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.group-head p:last-child {
-  max-width: 680px;
-  margin: 10px 0 0;
-}
-
-.group-head h2 {
-  font-size: clamp(1.6rem, 3vw, 2.35rem);
 }
 
 .card-grid {
@@ -551,10 +460,6 @@ button {
 
 .card-grid-primary {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-}
-
-.card-grid-compact {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .directory-card,
@@ -808,23 +713,13 @@ button {
     max-width: 680px;
   }
 
-  .path-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .path-card {
-    min-height: auto;
-  }
-
   .directory-heading,
-  .group-head,
   .quote-card {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .directory-count,
-  .group-count {
+  .directory-count {
     white-space: normal;
   }
 
@@ -865,7 +760,7 @@ button {
 
   .site-nav {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
   }
 
@@ -876,7 +771,7 @@ button {
   }
 
   .hero-section {
-    padding: 42px 0 44px;
+    padding: 34px 0 36px;
   }
 
   .hero-copy h1 {
@@ -898,7 +793,6 @@ button {
   }
 
   .start-panel,
-  .path-card,
   .directory-toolbar,
   .directory-card,
   .state-card,
@@ -917,8 +811,7 @@ button {
   }
 
   .card-grid,
-  .card-grid-primary,
-  .card-grid-compact {
+  .card-grid-primary {
     grid-template-columns: 1fr;
   }
 

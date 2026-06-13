@@ -1,7 +1,7 @@
 import { ICONS } from './icons.js';
 
-export async function loadServices() {
-  const res = await fetch('/assets/data/services.json');
+export async function loadDirectory() {
+  const res = await fetch('/assets/data/directory.json');
   return res.json();
 }
 
@@ -22,16 +22,16 @@ export function renderAll(data) {
   document.getElementById('count').textContent = total;
 }
 
-function card(service) {
+function card(entry) {
   const a = document.createElement('a');
   a.className = 'card';
-  a.href = service.url;
+  a.href = entry.url;
   a.target = '_blank';
   a.rel = 'noopener';
 
   a.innerHTML = `
-    <strong>${service.name}</strong>
-    <p class="muted">${service.desc || ''}</p>
+    <strong>${entry.name}</strong>
+    <p class="muted">${entry.desc || ''}</p>
   `;
   return a;
 }

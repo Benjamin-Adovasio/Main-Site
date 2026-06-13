@@ -1,0 +1,101 @@
+{
+  "websites": [
+    {
+      "id": "vpn",
+      "name": "Adovasio VPN",
+      "desc": "Remote access portal",
+      "url": "https://vpn.adovasio.com:4445",
+      "icon": "shield",
+      "action": "Login",
+      "tags": ["access", "security"]
+    },
+    {
+      "id": "sso",
+      "name": "Adovasio SSO",
+      "desc": "Single sign-on portal",
+      "url": "https://sso.adovasio.com",
+      "icon": "key",
+      "action": "Login",
+      "tags": ["access", "identity"]
+    },
+    {
+      "id": "cloud",
+      "name": "Nextcloud",
+      "desc": "Files and sync",
+      "url": "https://cloud.adovasio.com",
+      "icon": "cloud",
+      "action": "Login",
+      "tags": ["files", "sync"]
+    },
+    {
+      "id": "git",
+      "name": "Adovasio Git",
+      "desc": "Code and repo hosting",
+      "url": "https://git.adovasio.com",
+      "icon": "cloud",
+      "label": "Code",
+      "action": "Login",
+      "tags": ["code", "hosting"]
+    },
+    {
+      "id": "print",
+      "name": "Adovasio Print",
+      "desc": "Printing portal",
+      "url": "https://print.adovasio.com",
+      "icon": "printer",
+      "action": "Login",
+      "tags": ["print"]
+    },
+    {
+      "id": "photos",
+      "name": "Adovasio Photos",
+      "desc": "Photo backup and access",
+      "url": "https://photos.adovasio.com",
+      "icon": "camera",
+      "action": "Login",
+      "tags": ["photos", "media"]
+    },
+    {
+      "id": "time",
+      "name": "Adovasio Time",
+      "desc": "Hosted NTP time source",
+      "url": "https://time.adovasio.com",
+      "icon": "clock",
+      "action": "Login",
+      "tags": ["time", "utility"]
+    },
+    {
+      "id": "energy",
+      "name": "Energy Monitoring",
+      "desc": "Power and device monitoring",
+      "url": "https://energy.adovasio.com",
+      "icon": "energy",
+      "action": "Login",
+      "tags": ["monitoring", "utility"]
+    }
+  ],
+  "apps": [
+    {
+      "id": "georgie-ai",
+      "name": "Georgie AI",
+      "desc": "Available on the Apple App Store.",
+      "url": "https://apps.apple.com/us/app/georgie-ai/id6761129715",
+      "icon": "device",
+      "label": "App Store",
+      "footer": "Apple App Store",
+      "action": "View on App Store",
+      "tags": ["apps", "app-store"]
+    },
+    {
+      "id": "guardian-campus-safety",
+      "name": "Guardian Campus Safety",
+      "desc": "Campus safety utility available on the Apple App Store.",
+      "url": "https://apps.apple.com/kz/app/guardian-campus-safety/id6762008563",
+      "icon": "shield",
+      "label": "App Store",
+      "footer": "Apple App Store",
+      "action": "View on App Store",
+      "tags": ["apps", "app-store", "campus", "safety", "utility"]
+    }
+  ]
+}

@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Adovasio Technology LLC | Services, Portals, and Apps</title>
+  <title>Adovasio Technology LLC | Portal and App Directory</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Adovasio Technology LLC provides hosted portals, custom apps, web hosting, network installs, low-voltage cable runs, and a simple path to request project help."
+    content="Adovasio Technology LLC provides one directory for hosted portals, published apps, and client access points."
   />
   <meta name="theme-color" content="#f7f9fc" />
   <meta property="og:type" content="website" />
@@ -14,7 +14,7 @@
   <meta property="og:title" content="Adovasio Technology LLC" />
   <meta
     property="og:description"
-    content="Find Adovasio client portals, service pages, published apps, and a direct path to request a quote."
+    content="Find Adovasio client portals, published apps, and hosted destinations in one directory."
   />
   <meta property="og:url" content="https://adovasio.com" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -32,12 +32,12 @@
   "@type": "Organization",
   "name": "Adovasio Technology LLC",
   "url": "https://adovasio.com",
-  "description": "Adovasio Technology LLC provides hosted websites, custom apps, network installs, low-voltage cable runs, and project support.",
+  "description": "Adovasio Technology LLC provides a directory for hosted portals, published apps, and client access points.",
   "email": "info@adovasio.com",
   "logo": "https://adovasio.com/assets/images/adovasio-primary-logo-transparent.png"
 }
   </script>
-  <link rel="stylesheet" href="/assets/css/home.css?v=3" />
+  <link rel="stylesheet" href="/assets/css/home.css?v=5" />
   <link rel="stylesheet" href="/assets/css/animations.css?v=6" />
 </head>
 <body>
@@ -56,9 +56,7 @@
       </a>
 
       <nav class="site-nav" aria-label="Primary">
-        <a href="#portals">Portals</a>
-        <a href="#services">Services</a>
-        <a href="#apps">Apps</a>
+        <a href="#directory">Directory</a>
         <a href="/form.html">Contact</a>
       </nav>
 
@@ -70,54 +68,26 @@
         <div class="hero-copy" data-animate>
           <h1>Practical technology work, with one place to find it.</h1>
           <p class="hero-lead">
-            Open an existing Adovasio portal, review available services, or start a conversation
-            about websites, apps, cabling, and network installs.
+            Open an existing Adovasio portal, find a hosted tool, or view published app work from
+            one simple directory.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#directory">Find a Portal</a>
-            <a class="button button-secondary" href="/form.html">Request Project Help</a>
+            <a class="button button-primary" href="#directory">Browse Directory</a>
+            <a class="button button-secondary" href="/form.html">Contact Adovasio</a>
           </div>
         </div>
 
         <aside class="start-panel" aria-label="Start here" data-animate>
           <p class="panel-label">Start Here</p>
-          <a class="start-link" href="#portals">
+          <a class="start-link" href="#directory">
             <strong>I need to sign in</strong>
             <span>Open VPN, SSO, cloud, print, notes, and other hosted tools.</span>
           </a>
-          <a class="start-link" href="#services">
-            <strong>I need work done</strong>
-            <span>Review service pages for hosting, apps, cable runs, and network installs.</span>
-          </a>
           <a class="start-link" href="/form.html">
-            <strong>I need a quote</strong>
-            <span>Email the project details and get the conversation started.</span>
+            <strong>I need to reach someone</strong>
+            <span>Email Adovasio with questions about access, apps, or hosted destinations.</span>
           </a>
         </aside>
-      </section>
-
-      <section class="section path-section" aria-labelledby="path-title">
-        <div class="section-intro" data-animate>
-          <h2 id="path-title">What do you need?</h2>
-        </div>
-
-        <div class="path-grid">
-          <a class="path-card" href="#portals" data-animate>
-            <span class="path-number">01</span>
-            <h3>Existing client access</h3>
-            <p>Use the directory to reach the portals and hosted tools already tied to your work.</p>
-          </a>
-          <a class="path-card" href="#services" data-animate>
-            <span class="path-number">02</span>
-            <h3>New project planning</h3>
-            <p>See the core services before reaching out about scope, timing, and budget.</p>
-          </a>
-          <a class="path-card" href="#apps" data-animate>
-            <span class="path-number">03</span>
-            <h3>Published app work</h3>
-            <p>View app releases connected to Adovasio's product and development work.</p>
-          </a>
-        </div>
       </section>
 
       <section class="section directory-shell" id="directory">
@@ -125,8 +95,8 @@
           <div>
             <h2>All Adovasio destinations.</h2>
             <p>
-              Search by name, domain, service, or tool type. The list stays grouped so returning
-              clients and new customers can move through it without guessing.
+              Search by name, domain, or tag. Portals and apps live together so you can scan every
+              destination without jumping between sections.
             </p>
           </div>
           <p class="directory-count">
@@ -145,63 +115,20 @@
             <input
               id="directory-search"
               type="search"
-              placeholder="Search portals, services, apps, or domains"
+              placeholder="Search portals, apps, tags, or domains"
               autocomplete="off"
             />
           </div>
 
-          <div class="filter-group" aria-label="Directory filters">
+          <div class="filter-group" id="directory-tags" aria-label="Directory tags">
             <button class="filter-pill is-active" type="button" data-directory-filter="all" aria-pressed="true">
               All
-            </button>
-            <button class="filter-pill" type="button" data-directory-filter="websites" aria-pressed="false">
-              Portals
-            </button>
-            <button class="filter-pill" type="button" data-directory-filter="serviceLines" aria-pressed="false">
-              Services
-            </button>
-            <button class="filter-pill" type="button" data-directory-filter="apps" aria-pressed="false">
-              Apps
             </button>
           </div>
         </div>
 
-        <div class="directory-groups">
-          <section class="directory-group" id="portals" data-directory-section>
-            <div class="group-head" data-animate>
-              <div>
-                <p class="eyebrow">Client Portals</p>
-                <h2>Hosted sites and tools</h2>
-                <p>Secure destinations for sign-in, files, code, printing, notes, media, and monitoring.</p>
-              </div>
-              <span class="group-count"><strong data-website-count>0</strong> listed</span>
-            </div>
-            <div class="card-grid card-grid-primary" id="grid-websites"></div>
-          </section>
-
-          <section class="directory-group" id="services" data-directory-section>
-            <div class="group-head" data-animate>
-              <div>
-                <p class="eyebrow">Services</p>
-                <h2>Work you can request</h2>
-                <p>Service pages for hosting, app development, low-voltage runs, and network installs.</p>
-              </div>
-              <span class="group-count"><strong data-service-count>0</strong> listed</span>
-            </div>
-            <div class="card-grid" id="grid-service-lines"></div>
-          </section>
-
-          <section class="directory-group" id="apps" data-directory-section>
-            <div class="group-head" data-animate>
-              <div>
-                <p class="eyebrow">Apps</p>
-                <h2>Published products</h2>
-                <p>Released app work connected to the broader Adovasio platform.</p>
-              </div>
-              <span class="group-count"><strong data-app-count>0</strong> listed</span>
-            </div>
-            <div class="card-grid card-grid-compact" id="grid-apps"></div>
-          </section>
+        <div class="directory-list">
+          <div class="card-grid card-grid-primary" id="grid-directory"></div>
 
           <article class="empty-state" id="directory-empty" hidden data-animate>
             <p class="panel-label">No Matches</p>
@@ -236,7 +163,7 @@
     </footer>
   </div>
 
-  <script defer src="/assets/js/app.js?v=12"></script>
+  <script defer src="/assets/js/app.js?v=14"></script>
   <script defer src="/assets/js/animations.js?v=8"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ const ICONS = {
   network: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"></rect><rect x="15" y="3" width="6" height="6" rx="1"></rect><rect x="9" y="15" width="6" height="6" rx="1"></rect><path d="M9 6h6"></path><path d="M12 9v6"></path></svg>`
 };
 
-const SERVICE_META = {
+const ENTRY_META = {
   shield: { label: "Access" },
   key: { label: "Identity" },
   cloud: { label: "Hosting" },
@@ -26,25 +26,38 @@ const SERVICE_META = {
   network: { label: "Deployment" }
 };
 
-const GROUP_META = {
-  websites: {
-    rootId: "grid-websites",
-    kind: "Client Portal",
-    emptyTitle: "Hosted sites unavailable",
-    emptyDescription: "The hosted properties list could not be loaded right now."
+const KIND_META = {
+  portal: {
+    label: "Portal",
+    tag: "portals"
   },
-  serviceLines: {
-    rootId: "grid-service-lines",
-    kind: "Service",
-    emptyTitle: "Service lines unavailable",
-    emptyDescription: "The Adovasio service pages could not be loaded right now."
-  },
-  apps: {
-    rootId: "grid-apps",
-    kind: "App",
-    emptyTitle: "Apps unavailable",
-    emptyDescription: "The published apps list could not be loaded right now."
+  app: {
+    label: "App",
+    tag: "apps"
   }
+};
+
+const TAG_LABELS = {
+  access: "Access",
+  "app-store": "App Store",
+  apps: "Apps",
+  campus: "Campus",
+  code: "Code",
+  files: "Files",
+  hosting: "Hosting",
+  identity: "Identity",
+  media: "Media",
+  monitoring: "Monitoring",
+  notes: "Notes",
+  photos: "Photos",
+  portals: "Portals",
+  print: "Print",
+  safety: "Safety",
+  security: "Security",
+  sync: "Sync",
+  time: "Time",
+  utility: "Utility",
+  workspace: "Workspace"
 };
 
 const directoryState = {
@@ -59,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadDirectory() {
   try {
-    const response = await fetch("/assets/data/services.json", {
+    const response = await fetch("/assets/data/directory.json", {
       cache: "no-store"
     });
 
@@ -69,30 +82,19 @@ async function loadDirectory() {
 
     const data = await response.json();
     const websites = Array.isArray(data.websites) ? data.websites : [];
-    const serviceLines = Array.isArray(data.serviceLines) ? data.serviceLines : [];
     const apps = Array.isArray(data.apps) ? data.apps : [];
+    const entries = [
+      ...websites.map(entry => normalizeDirectoryEntry(entry, "portal")),
+      ...apps.map(entry => normalizeDirectoryEntry(entry, "app"))
+    ];
 
-    updateCounts({
-      websites: websites.length,
-      serviceLines: serviceLines.length,
-      apps: apps.length
-    });
-
-    renderDirectoryGroup("websites", websites);
-    renderDirectoryGroup("serviceLines", serviceLines);
-    renderDirectoryGroup("apps", apps);
+    renderTagFilters(entries);
+    renderDirectory(entries);
     applyDirectoryFilters();
     refreshMotion();
   } catch (error) {
-    updateCounts({
-      websites: 0,
-      serviceLines: 0,
-      apps: 0
-    });
-
-    renderDirectoryGroup("websites", []);
-    renderDirectoryGroup("serviceLines", []);
-    renderDirectoryGroup("apps", []);
+    renderTagFilters([]);
+    renderDirectory([]);
     applyDirectoryFilters();
     refreshMotion();
   }
@@ -100,7 +102,7 @@ async function loadDirectory() {
 
 function setupDirectoryControls() {
   const search = document.getElementById("directory-search");
-  const filterButtons = document.querySelectorAll("[data-directory-filter]");
+  const tagRoot = document.getElementById("directory-tags");
 
   if (search) {
     search.addEventListener("input", event => {
@@ -109,11 +111,16 @@ function setupDirectoryControls() {
     });
   }
 
-  filterButtons.forEach(button => {
-    button.addEventListener("click", () => {
+  if (tagRoot) {
+    tagRoot.addEventListener("click", event => {
+      const button = event.target.closest("[data-directory-filter]");
+      if (!button) {
+        return;
+      }
+
       directoryState.filter = button.dataset.directoryFilter || "all";
 
-      filterButtons.forEach(node => {
+      tagRoot.querySelectorAll("[data-directory-filter]").forEach(node => {
         const isActive = node === button;
         node.classList.toggle("is-active", isActive);
         node.setAttribute("aria-pressed", String(isActive));
@@ -121,18 +128,48 @@ function setupDirectoryControls() {
 
       applyDirectoryFilters();
     });
+  }
+}
+
+function renderTagFilters(entries) {
+  const root = document.getElementById("directory-tags");
+  if (!root) {
+    return;
+  }
+
+  const tags = Array.from(new Set(entries.flatMap(entry => entry.tags))).sort((left, right) => {
+    const priority = ["portals", "apps"];
+    const leftPriority = priority.indexOf(left);
+    const rightPriority = priority.indexOf(right);
+
+    if (leftPriority !== -1 || rightPriority !== -1) {
+      return (leftPriority === -1 ? 99 : leftPriority) - (rightPriority === -1 ? 99 : rightPriority);
+    }
+
+    return getTagLabel(left).localeCompare(getTagLabel(right));
   });
+
+  root.innerHTML = [
+    renderFilterButton("all", "All", directoryState.filter === "all"),
+    ...tags.map(tag => renderFilterButton(tag, getTagLabel(tag), directoryState.filter === tag))
+  ].join("");
 }
 
-function updateCounts(counts) {
-  setText("[data-website-count]", counts.websites);
-  setText("[data-service-count]", counts.serviceLines);
-  setText("[data-app-count]", counts.apps);
+function renderFilterButton(value, label, isActive) {
+  return `
+    <button
+      class="filter-pill${isActive ? " is-active" : ""}"
+      type="button"
+      data-directory-filter="${escapeAttribute(value)}"
+      aria-pressed="${String(isActive)}"
+    >
+      ${escapeHtml(label)}
+    </button>
+  `;
 }
 
-function renderDirectoryGroup(groupKey, entries) {
-  const meta = GROUP_META[groupKey];
-  const root = document.getElementById(meta.rootId);
+function renderDirectory(entries) {
+  const root = document.getElementById("grid-directory");
 
   if (!root) {
     return;
@@ -142,25 +179,26 @@ function renderDirectoryGroup(groupKey, entries) {
     root.innerHTML = `
       <article class="state-card">
         <p class="panel-label">Unavailable</p>
-        <h3>${escapeHtml(meta.emptyTitle)}</h3>
-        <p>${escapeHtml(meta.emptyDescription)}</p>
+        <h3>Directory unavailable</h3>
+        <p>The Adovasio directory could not be loaded right now.</p>
       </article>
     `;
     return;
   }
 
   root.innerHTML = entries
-    .map(entry => renderDirectoryCard(entry, groupKey))
+    .map(entry => renderDirectoryCard(entry))
     .join("");
 }
 
-function renderDirectoryCard(entry, groupKey) {
-  const serviceMeta = resolveServiceMeta(entry);
+function renderDirectoryCard(entry) {
+  const entryMeta = resolveEntryMeta(entry);
   const icon = resolveIcon(entry.icon);
   const href = escapeAttribute(entry.url);
   const footer = resolveFooter(entry);
   const action = resolveAction(entry);
-  const searchText = buildSearchText(entry, groupKey, serviceMeta);
+  const searchText = buildSearchText(entry, entryMeta);
+  const featuredTag = entry.tags.find(tag => tag !== entry.kindTag) || entry.kindTag;
 
   return `
     <a
@@ -168,12 +206,12 @@ function renderDirectoryCard(entry, groupKey) {
       href="${href}"
       ${buildLinkAttributes(entry.url)}
       data-directory-card
-      data-group="${escapeAttribute(groupKey)}"
+      data-tags="${escapeAttribute(entry.tags.join("|"))}"
       data-search="${escapeAttribute(searchText)}"
     >
       <div class="card-top">
-        <span class="card-kind">${escapeHtml(GROUP_META[groupKey].kind)}</span>
-        <span class="card-tag">${escapeHtml(entry.label || serviceMeta.label)}</span>
+        <span class="card-kind">${escapeHtml(entry.kindLabel)}</span>
+        <span class="card-tag">${escapeHtml(entry.label || getTagLabel(featuredTag) || entryMeta.label)}</span>
       </div>
       <div class="card-body">
         <span class="card-icon" aria-hidden="true">
@@ -194,13 +232,12 @@ function renderDirectoryCard(entry, groupKey) {
 
 function applyDirectoryFilters() {
   const cards = Array.from(document.querySelectorAll("[data-directory-card]"));
-  const sections = Array.from(document.querySelectorAll("[data-directory-section]"));
   const emptyState = document.getElementById("directory-empty");
   let visibleCount = 0;
 
   cards.forEach(card => {
-    const matchesFilter =
-      directoryState.filter === "all" || card.dataset.group === directoryState.filter;
+    const tags = String(card.dataset.tags || "").split("|").filter(Boolean);
+    const matchesFilter = directoryState.filter === "all" || tags.includes(directoryState.filter);
     const haystack = String(card.dataset.search || "");
     const matchesQuery =
       directoryState.query.length === 0 || haystack.includes(directoryState.query);
@@ -213,17 +250,6 @@ function applyDirectoryFilters() {
     }
   });
 
-  sections.forEach(section => {
-    const sectionCards = section.querySelectorAll("[data-directory-card]");
-    if (sectionCards.length === 0) {
-      section.hidden = false;
-      return;
-    }
-
-    const hasVisibleCard = Array.from(sectionCards).some(card => !card.hidden);
-    section.hidden = !hasVisibleCard;
-  });
-
   if (emptyState) {
     emptyState.hidden = cards.length === 0 || visibleCount > 0;
   }
@@ -231,24 +257,52 @@ function applyDirectoryFilters() {
   setText("[data-results-count]", visibleCount);
 }
 
-function buildSearchText(entry, groupKey, meta) {
+function normalizeDirectoryEntry(entry, kind) {
+  const kindMeta = KIND_META[kind] || KIND_META.portal;
+  const tags = normalizeTags([kindMeta.tag, ...(Array.isArray(entry.tags) ? entry.tags : [])]);
+
+  return {
+    ...entry,
+    kind,
+    kindLabel: kindMeta.label,
+    kindTag: kindMeta.tag,
+    tags
+  };
+}
+
+function normalizeTags(tags) {
+  return Array.from(
+    new Set(
+      tags
+        .map(tag => String(tag || "").trim().toLowerCase())
+        .filter(Boolean)
+    )
+  );
+}
+
+function buildSearchText(entry, meta) {
   return [
-    GROUP_META[groupKey].kind,
+    entry.kindLabel,
     entry.name,
     entry.desc,
     entry.label,
     meta.label,
     entry.footer,
     entry.url,
-    resolveFooter(entry)
+    resolveFooter(entry),
+    ...entry.tags.map(getTagLabel)
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 }
 
-function resolveServiceMeta(entry) {
-  return SERVICE_META[entry.icon] || SERVICE_META.cloud;
+function resolveEntryMeta(entry) {
+  return ENTRY_META[entry.icon] || ENTRY_META.cloud;
+}
+
+function getTagLabel(tag) {
+  return TAG_LABELS[tag] || String(tag).replace(/-/g, " ").replace(/\b\w/g, char => char.toUpperCase());
 }
 
 function resolveIcon(iconName) {
