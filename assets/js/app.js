@@ -140,7 +140,7 @@ function renderDirectoryGroup(groupKey, entries) {
 
   if (entries.length === 0) {
     root.innerHTML = `
-      <article class="state-card" data-animate>
+      <article class="state-card">
         <p class="panel-label">Unavailable</p>
         <h3>${escapeHtml(meta.emptyTitle)}</h3>
         <p>${escapeHtml(meta.emptyDescription)}</p>
@@ -150,11 +150,11 @@ function renderDirectoryGroup(groupKey, entries) {
   }
 
   root.innerHTML = entries
-    .map((entry, index) => renderDirectoryCard(entry, groupKey, index))
+    .map(entry => renderDirectoryCard(entry, groupKey))
     .join("");
 }
 
-function renderDirectoryCard(entry, groupKey, index) {
+function renderDirectoryCard(entry, groupKey) {
   const serviceMeta = resolveServiceMeta(entry);
   const icon = resolveIcon(entry.icon);
   const href = escapeAttribute(entry.url);
@@ -170,8 +170,6 @@ function renderDirectoryCard(entry, groupKey, index) {
       data-directory-card
       data-group="${escapeAttribute(groupKey)}"
       data-search="${escapeAttribute(searchText)}"
-      data-animate
-      style="--card-delay: ${index * 65}ms"
     >
       <div class="card-top">
         <span class="card-kind">${escapeHtml(GROUP_META[groupKey].kind)}</span>

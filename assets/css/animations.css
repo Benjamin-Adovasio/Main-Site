@@ -1,7 +1,7 @@
 [data-animate] {
-  opacity: 0;
-  transform: translateY(34px) scale(0.985);
-  filter: blur(10px);
+  opacity: 1;
+  transform: none;
+  filter: none;
   transition-delay: var(--card-delay, 0ms);
   transition:
     opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
