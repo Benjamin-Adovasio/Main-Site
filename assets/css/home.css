@@ -8,6 +8,7 @@
   --muted: #64748b;
   --line: #d9e2ef;
   --line-strong: #c5d3e3;
+  --line-dark: #9fb1c7;
   --accent: #2563eb;
   --accent-strong: #1d4ed8;
   --accent-soft: #eff6ff;
@@ -165,9 +166,10 @@ button {
 }
 
 .button-secondary {
-  color: var(--ink);
-  background: #ffffff;
-  border-color: var(--line-strong);
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);
 }
 
 .button-secondary:hover,
@@ -220,6 +222,13 @@ button {
   font-weight: 800;
 }
 
+.hero-copy h1:first-child,
+.section-intro h2:first-child,
+.directory-heading h2:first-child,
+.quote-card h2:first-child {
+  margin-top: 0;
+}
+
 .hero-lead {
   max-width: 640px;
   margin: 22px 0 0;
@@ -251,13 +260,14 @@ button {
   display: grid;
   gap: 5px;
   padding: 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   color: inherit;
   text-decoration: none;
-  background: #ffffff;
+  background: var(--surface-soft);
   transition:
     border-color 160ms ease,
+    box-shadow 160ms ease,
     background 160ms ease,
     transform 160ms ease;
 }
@@ -275,8 +285,9 @@ button {
 
 .start-link:hover,
 .start-link:focus-visible {
-  border-color: var(--accent-line);
-  background: var(--accent-soft);
+  border-color: var(--accent);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
   transform: translateY(-1px);
   outline: none;
 }
@@ -325,11 +336,12 @@ button {
   gap: 12px;
   min-height: 220px;
   padding: 22px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   color: inherit;
   text-decoration: none;
   background: var(--surface);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -338,7 +350,7 @@ button {
 
 .path-card:hover,
 .path-card:focus-visible {
-  border-color: var(--accent-line);
+  border-color: var(--accent);
   box-shadow: var(--shadow);
   transform: translateY(-2px);
   outline: none;
@@ -415,7 +427,7 @@ button {
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: var(--surface-soft);
 }
 
 .search-label {
@@ -431,7 +443,7 @@ button {
   gap: 10px;
   min-height: 46px;
   padding: 0 14px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line-dark);
   border-radius: var(--radius);
   background: #ffffff;
 }
@@ -479,9 +491,9 @@ button {
   justify-content: center;
   min-height: 42px;
   padding: 0 14px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line-dark);
   border-radius: var(--radius);
-  color: var(--muted);
+  color: var(--ink);
   background: #ffffff;
   font-weight: 800;
   cursor: pointer;
@@ -494,7 +506,8 @@ button {
 .filter-pill:hover,
 .filter-pill:focus-visible {
   color: var(--accent);
-  border-color: var(--accent-line);
+  border-color: var(--accent);
+  background: var(--accent-soft);
   outline: none;
 }
 
@@ -547,7 +560,7 @@ button {
 .directory-card,
 .state-card,
 .empty-state {
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: var(--surface);
 }
@@ -567,7 +580,7 @@ button {
 
 .directory-card:hover,
 .directory-card:focus-visible {
-  border-color: var(--accent-line);
+  border-color: var(--accent);
   box-shadow: var(--shadow);
   transform: translateY(-2px);
   outline: none;
@@ -667,8 +680,15 @@ button {
 }
 
 .card-action {
-  color: var(--accent);
-  font-size: 0.86rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 11px;
+  border-radius: var(--radius);
+  color: #ffffff;
+  background: var(--accent);
+  font-size: 0.84rem;
   white-space: nowrap;
 }
 
@@ -703,7 +723,7 @@ button {
   justify-content: space-between;
   gap: 28px;
   padding: 28px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: var(--surface);
 }
