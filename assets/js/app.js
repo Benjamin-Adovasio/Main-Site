@@ -13,35 +13,35 @@ const ICONS = {
 };
 
 const SERVICE_META = {
-  shield: { label: "Access", accent: "80 167 255" },
-  key: { label: "Identity", accent: "124 220 255" },
-  cloud: { label: "Hosting", accent: "59 152 255" },
-  printer: { label: "Print", accent: "41 192 229" },
-  camera: { label: "Media", accent: "124 220 255" },
-  clock: { label: "Utility", accent: "151 229 255" },
-  notes: { label: "Workspace", accent: "110 209 255" },
-  energy: { label: "Monitoring", accent: "43 196 164" },
-  cable: { label: "Infrastructure", accent: "38 191 233" },
-  device: { label: "Apps", accent: "84 149 255" },
-  network: { label: "Deployment", accent: "59 152 255" }
+  shield: { label: "Access" },
+  key: { label: "Identity" },
+  cloud: { label: "Hosting" },
+  printer: { label: "Print" },
+  camera: { label: "Media" },
+  clock: { label: "Utility" },
+  notes: { label: "Workspace" },
+  energy: { label: "Monitoring" },
+  cable: { label: "Infrastructure" },
+  device: { label: "Apps" },
+  network: { label: "Deployment" }
 };
 
 const GROUP_META = {
   websites: {
     rootId: "grid-websites",
-    kind: "Hosted Site",
+    kind: "Client Portal",
     emptyTitle: "Hosted sites unavailable",
     emptyDescription: "The hosted properties list could not be loaded right now."
   },
   serviceLines: {
     rootId: "grid-service-lines",
-    kind: "Service Line",
+    kind: "Service",
     emptyTitle: "Service lines unavailable",
     emptyDescription: "The Adovasio service pages could not be loaded right now."
   },
   apps: {
     rootId: "grid-apps",
-    kind: "Published App",
+    kind: "App",
     emptyTitle: "Apps unavailable",
     emptyDescription: "The published apps list could not be loaded right now."
   }
@@ -78,7 +78,6 @@ async function loadDirectory() {
       apps: apps.length
     });
 
-    renderFeaturedLinks(websites);
     renderDirectoryGroup("websites", websites);
     renderDirectoryGroup("serviceLines", serviceLines);
     renderDirectoryGroup("apps", apps);
@@ -91,7 +90,6 @@ async function loadDirectory() {
       apps: 0
     });
 
-    renderFeaturedLinks([]);
     renderDirectoryGroup("websites", []);
     renderDirectoryGroup("serviceLines", []);
     renderDirectoryGroup("apps", []);
@@ -132,45 +130,6 @@ function updateCounts(counts) {
   setText("[data-app-count]", counts.apps);
 }
 
-function renderFeaturedLinks(websites) {
-  const root = document.getElementById("featured-links");
-  if (!root) {
-    return;
-  }
-
-  const featured = websites.slice(0, 4);
-
-  if (featured.length === 0) {
-    root.innerHTML = `
-      <article class="state-card" data-animate>
-        <p class="panel-label">Unavailable</p>
-        <h3>Featured links could not be loaded.</h3>
-        <p>Refresh the page to try again.</p>
-      </article>
-    `;
-    return;
-  }
-
-  root.innerHTML = featured
-    .map((entry, index) => {
-      const host = formatHost(entry.url);
-      return `
-        <a
-          class="featured-link"
-          href="${escapeAttribute(entry.url)}"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-animate
-          style="--card-delay: ${index * 55}ms"
-        >
-          <strong>${escapeHtml(entry.name)}</strong>
-          <span>${escapeHtml(host)}</span>
-        </a>
-      `;
-    })
-    .join("");
-}
-
 function renderDirectoryGroup(groupKey, entries) {
   const meta = GROUP_META[groupKey];
   const root = document.getElementById(meta.rootId);
@@ -197,7 +156,7 @@ function renderDirectoryGroup(groupKey, entries) {
 
 function renderDirectoryCard(entry, groupKey, index) {
   const serviceMeta = resolveServiceMeta(entry);
-  const icon = ICONS[entry.icon] || ICONS.cloud;
+  const icon = resolveIcon(entry.icon);
   const href = escapeAttribute(entry.url);
   const footer = resolveFooter(entry);
   const action = resolveAction(entry);
@@ -212,20 +171,24 @@ function renderDirectoryCard(entry, groupKey, index) {
       data-group="${escapeAttribute(groupKey)}"
       data-search="${escapeAttribute(searchText)}"
       data-animate
-      style="--card-accent: ${serviceMeta.accent}; --card-delay: ${index * 65}ms"
+      style="--card-delay: ${index * 65}ms"
     >
       <div class="card-top">
         <span class="card-kind">${escapeHtml(GROUP_META[groupKey].kind)}</span>
         <span class="card-tag">${escapeHtml(entry.label || serviceMeta.label)}</span>
       </div>
-      <div class="card-icon">
-        ${icon}
+      <div class="card-body">
+        <span class="card-icon" aria-hidden="true">
+          ${icon}
+        </span>
+        <div>
+          <h3>${escapeHtml(entry.name)}</h3>
+          <p>${escapeHtml(entry.desc || "")}</p>
+        </div>
       </div>
-      <h3>${escapeHtml(entry.name)}</h3>
-      <p>${escapeHtml(entry.desc || "")}</p>
       <div class="card-footer">
         <span>${escapeHtml(footer)}</span>
-        <strong>${escapeHtml(action)}</strong>
+        <strong class="card-action">${escapeHtml(action)}</strong>
       </div>
     </a>
   `;
@@ -288,6 +251,11 @@ function buildSearchText(entry, groupKey, meta) {
 
 function resolveServiceMeta(entry) {
   return SERVICE_META[entry.icon] || SERVICE_META.cloud;
+}
+
+function resolveIcon(iconName) {
+  const icon = ICONS[iconName] || ICONS.cloud;
+  return icon.replace("<svg ", '<svg aria-hidden="true" focusable="false" ');
 }
 
 function resolveFooter(entry) {
