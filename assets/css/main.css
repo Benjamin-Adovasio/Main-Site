@@ -1,18 +1,18 @@
 :root {
-  --bg: #ffffff;
-  --bg-deep: #f9f9f9;
-  --bg-soft: #f5f5f5;
-  --panel: #ffffff;
-  --panel-soft: #ffffff;
-  --ink: #000000;
-  --ink-soft: #666666;
-  --text: #000000;
-  --text-soft: #666666;
-  --text-strong: #000000;
-  --paper: #ffffff;
-  --paper-soft: #f9f9f9;
-  --line: #e0e0e0;
-  --line-strong: #d0d0d0;
+  --bg: #0a1620;
+  --bg-deep: #030c16;
+  --bg-soft: #0b1d2d;
+  --panel: #0f1820;
+  --panel-soft: #0f1820;
+  --ink: #0f172a;
+  --ink-soft: #475569;
+  --text: #e5e7eb;
+  --text-soft: #a8b3c7;
+  --text-strong: #f8fbff;
+  --paper: #f8fbff;
+  --paper-soft: #e7eef7;
+  --line: #1a2a3a;
+  --line-strong: #2a3a4a;
   --accent: #2563eb;
   --accent-strong: #1d4ed8;
   --accent-soft: #2563eb;
@@ -22,8 +22,8 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 12px;
-  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-deep: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-deep: 0 2px 8px rgba(0, 0, 0, 0.4);
   --max-width: 1280px;
 }
 
@@ -42,7 +42,7 @@ body {
   min-height: 100vh;
   color: var(--text);
   font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #ffffff;
+  background: #0a1620;
   overflow-x: hidden;
 }
 
@@ -94,9 +94,9 @@ select {
   justify-content: space-between;
   gap: 18px;
   padding: 16px 20px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #ffffff;
+  background: var(--panel);
   transition:
     background 200ms ease,
     border-color 200ms ease,
@@ -118,8 +118,8 @@ select {
   justify-content: center;
   padding: 10px 16px;
   border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: var(--paper);
+  border: 1px solid rgba(191, 219, 254, 0.3);
   box-shadow: none;
 }
 
@@ -172,7 +172,7 @@ select {
 .site-nav a {
   padding: 10px 14px;
   border-radius: 8px;
-  color: #000000;
+  color: var(--text);
   font-size: 0.94rem;
   font-weight: 600;
   text-decoration: none;
@@ -184,8 +184,8 @@ select {
 
 .site-nav a:hover,
 .site-nav a:focus-visible {
-  color: #2563eb;
-  background: #f5f5f5;
+  color: #60a5fa;
+  background: rgba(37, 99, 235, 0.15);
   outline: none;
 }
 
@@ -234,9 +234,9 @@ select {
 .button-secondary,
 .button-outline,
 .button-light {
-  color: #000000;
-  background: #f5f5f5;
-  border-color: #e0e0e0;
+  color: var(--text);
+  background: rgba(37, 99, 235, 0.15);
+  border-color: var(--line);
 }
 
 .button-secondary:hover,
@@ -245,8 +245,8 @@ select {
 .button-secondary:focus-visible,
 .button-outline:focus-visible,
 .button-light:focus-visible {
-  background: #e8e8e8;
-  border-color: #d0d0d0;
+  background: rgba(37, 99, 235, 0.25);
+  border-color: #60a5fa;
 }
 
 .button-dark {
@@ -367,8 +367,8 @@ select {
 .stat-card {
   padding: 18px 20px;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  background: #f9f9f9;
+  border: 1px solid var(--line);
+  background: rgba(15, 24, 32, 0.7);
   box-shadow: none;
 }
 
@@ -376,13 +376,13 @@ select {
   display: block;
   font-size: 1.18rem;
   letter-spacing: -0.03em;
-  color: #000000;
+  color: var(--text);
 }
 
 .stat-card span {
   display: block;
   margin-top: 8px;
-  color: #666666;
+  color: var(--text-soft);
   font-size: 0.9rem;
   line-height: 1.5;
 }
@@ -413,8 +413,8 @@ select {
   overflow: hidden;
   padding: 28px;
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  background: #ffffff;
+  border: 1px solid var(--line);
+  background: var(--panel);
   box-shadow: var(--shadow-soft);
 }
 
@@ -432,14 +432,14 @@ select {
   margin-top: 14px;
   font-size: clamp(1.7rem, 4vw, 2.2rem);
   line-height: 1.08;
-  color: #000000;
+  color: var(--text);
 }
 
 .glass-panel p {
   position: relative;
   z-index: 1;
   margin: 16px 0 0;
-  color: #666666;
+  color: var(--text-soft);
   line-height: 1.68;
 }
 
@@ -653,8 +653,8 @@ select {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  background: #ffffff;
+  border: 1px solid var(--line);
+  background: var(--panel);
   box-shadow: var(--shadow-soft);
 }
 
