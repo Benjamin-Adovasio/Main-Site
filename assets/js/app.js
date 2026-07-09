@@ -60,6 +60,11 @@ const TAG_LABELS = {
   workspace: "Workspace"
 };
 
+const DIRECTORY_FILTERS = [
+  { value: "portals", label: "Portals" },
+  { value: "apps", label: "Apps" }
+];
+
 const directoryState = {
   query: "",
   filter: "all"
@@ -137,21 +142,14 @@ function renderTagFilters(entries) {
     return;
   }
 
-  const tags = Array.from(new Set(entries.flatMap(entry => entry.tags))).sort((left, right) => {
-    const priority = ["portals", "apps"];
-    const leftPriority = priority.indexOf(left);
-    const rightPriority = priority.indexOf(right);
-
-    if (leftPriority !== -1 || rightPriority !== -1) {
-      return (leftPriority === -1 ? 99 : leftPriority) - (rightPriority === -1 ? 99 : rightPriority);
-    }
-
-    return getTagLabel(left).localeCompare(getTagLabel(right));
-  });
+  const availableTags = new Set(entries.flatMap(entry => entry.tags));
+  const filters = DIRECTORY_FILTERS.filter(filter => availableTags.has(filter.value));
 
   root.innerHTML = [
     renderFilterButton("all", "All", directoryState.filter === "all"),
-    ...tags.map(tag => renderFilterButton(tag, getTagLabel(tag), directoryState.filter === tag))
+    ...filters.map(filter => (
+      renderFilterButton(filter.value, filter.label, directoryState.filter === filter.value)
+    ))
   ].join("");
 }
 
