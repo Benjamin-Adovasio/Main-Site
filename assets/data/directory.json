@@ -65,6 +65,15 @@
       "tags": ["time", "utility"]
     },
     {
+      "id": "bengpt",
+      "name": "BenGPT",
+      "desc": "Self-hosted AI chatbot",
+      "url": "https://ai.adovasio.com",
+      "icon": "cloud",
+      "action": "Open",
+      "tags": ["ai", "chatbot", "self-hosted"]
+    },
+    {
       "id": "energy",
       "name": "Energy Monitoring",
       "desc": "Power and device monitoring",

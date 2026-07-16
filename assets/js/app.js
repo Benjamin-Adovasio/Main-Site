@@ -39,9 +39,11 @@ const KIND_META = {
 
 const TAG_LABELS = {
   access: "Access",
+  ai: "AI",
   "app-store": "App Store",
   apps: "Apps",
   campus: "Campus",
+  chatbot: "Chatbot",
   code: "Code",
   files: "Files",
   hosting: "Hosting",
@@ -55,6 +57,7 @@ const TAG_LABELS = {
   safety: "Safety",
   security: "Security",
   sync: "Sync",
+  "self-hosted": "Self-Hosted",
   time: "Time",
   utility: "Utility",
   workspace: "Workspace"
