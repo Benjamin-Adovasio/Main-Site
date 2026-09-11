@@ -49,6 +49,7 @@ function verifyConsumerPage(root, relativePath) {
 const primaryMainPages = [
   "index.html",
   "about.html",
+  "bengpt.html",
   "business.html",
   "residential.html",
   "portfolio.html",
