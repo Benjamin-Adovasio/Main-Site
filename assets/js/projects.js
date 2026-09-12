@@ -11,14 +11,14 @@
     clock: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>`,
     cloud: `<svg viewBox="0 0 24 24"><path d="M6 18h11a4 4 0 0 0 0-8 5 5 0 0 0-9.7-1A4 4 0 0 0 6 18Z"></path></svg>`,
     code: `<svg viewBox="0 0 24 24"><path d="m9 7-5 5 5 5M15 7l5 5-5 5M13 4l-2 16"></path></svg>`,
-    document: `<svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6Z"></path><path d="M14 2v5h5M9 12h6M9 16h6"></path></svg>`,
+    document: `<svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6Z"></path><path d="M14 2v4h4M9 12h6M9 16h6"></path></svg>`,
     files: `<svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path><path d="M3 7V5a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v2"></path></svg>`,
     identity: `<svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="3"></circle><path d="M11 12h10l-2-2 2-2M4 21a8 8 0 0 1 13-6"></path></svg>`,
     mail: `<svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></svg>`,
     media: `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="m5 18 5-5 3 3 2-2 4 4"></path></svg>`,
-    network: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"></rect><rect x="15" y="3" width="6" height="6" rx="1"></rect><rect x="9" y="15" width="6" height="6" rx="1"></rect><path d="M9 6h6M12 9v6"></path></svg>`,
+    network: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"></rect><rect x="15" y="3" width="6" height="6" rx="1"></rect><rect x="9" y="15" width="6" height="6" rx="1"></rect><path d="M9 6h6M12 6v9"></path></svg>`,
     print: `<svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"></path><rect x="6" y="14" width="12" height="7"></rect><rect x="4" y="9" width="16" height="6" rx="1"></rect></svg>`,
-    security: `<svg viewBox="0 0 24 24"><path d="m12 2 8 4v6c0 5-3.5 9.5-8 12-4.5-2.5-8-7-8-12V6Z"></path><path d="m9 12 2 2 4-5"></path></svg>`,
+    security: `<svg viewBox="0 0 24 24"><path d="m12 2 8 4v6c0 4.5-3.5 8-8 10-4.5-2-8-5.5-8-10V6Z"></path><path d="m9 12 2 2 4-5"></path></svg>`,
     tools: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><path d="M17.5 14v7M14 17.5h7"></path></svg>`,
     fallback: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><circle cx="4" cy="6" r="2"></circle><circle cx="20" cy="6" r="2"></circle><circle cx="12" cy="21" r="2"></circle><path d="m6 7 4 3m8-3-4 3m-2 5v4"></path></svg>`
   };
@@ -334,6 +334,7 @@
           ${renderTechnologyStack(project, technologies, "compact")}
         </div>
       </div>
+      ${renderExternalNote(project.url)}
     `;
 
     return renderProjectContainer({
@@ -425,7 +426,7 @@
         ${visibleItems.map(technology => `
           <li title="${escapeAttribute(technology.name)}">
             <span
-              class="technology-logo technology-logo--${escapeAttribute(technology.logoShape)} technology-logo--surface-${escapeAttribute(technology.logoSurface)}"
+              class="technology-logo technology-logo--${escapeAttribute(technology.logoShape)} technology-logo--surface-${escapeAttribute(technology.logoSurface)}${technology.logo ? " has-technology-image" : ""}"
               aria-hidden="true"
             >
               <span class="technology-mark">${escapeHtml(technology.mark)}</span>
@@ -671,18 +672,16 @@
   }
 
   function setupImageFallbacks(root) {
-    root.querySelectorAll(".has-project-image img").forEach(image => {
-      image.addEventListener("error", () => {
-        image.closest(".has-project-image")?.classList.add("is-image-missing");
+    root.querySelectorAll(".has-project-image img, .technology-logo img").forEach(image => {
+      const showFallback = () => {
+        image.closest(".has-project-image, .technology-logo")?.classList.add("is-image-missing");
         image.remove();
-      }, { once: true });
-    });
+      };
 
-    root.querySelectorAll(".technology-logo img").forEach(image => {
-      image.addEventListener("error", () => {
-        image.closest(".technology-logo")?.classList.add("is-image-missing");
-        image.remove();
-      }, { once: true });
+      image.addEventListener("error", showFallback, { once: true });
+      if (image.complete && image.naturalWidth === 0) {
+        showFallback();
+      }
     });
   }
 

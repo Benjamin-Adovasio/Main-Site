@@ -22,44 +22,52 @@
       return;
     }
 
-    let restoreFocus = null;
+    const mobileNavigation = window.matchMedia("(max-width: 900px)");
 
     const getFocusable = () =>
-      Array.from(
+      [toggle, ...Array.from(
         panel.querySelectorAll(
           'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
         )
-      ).filter(element => !element.hidden);
+      )].filter(element => element.getClientRects().length > 0 && !element.hidden);
+
+    const syncPanelVisibility = open => {
+      const hidden = mobileNavigation.matches && !open;
+      panel.setAttribute("aria-hidden", String(hidden));
+      panel.inert = hidden;
+    };
 
     const setOpen = (open, options = {}) => {
+      open = open && mobileNavigation.matches;
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
       body.classList.toggle("nav-open", open);
-      panel.setAttribute(
-        "aria-hidden",
-        String(window.innerWidth <= 900 ? !open : false)
-      );
+      syncPanelVisibility(open);
 
       if (open) {
-        restoreFocus = document.activeElement;
-        window.requestAnimationFrame(() => getFocusable()[0]?.focus());
-      } else if (options.restore !== false && restoreFocus instanceof HTMLElement) {
-        restoreFocus.focus();
+        header.classList.remove("is-hidden");
+        window.requestAnimationFrame(() => {
+          if (toggle.getAttribute("aria-expanded") === "true") {
+            getFocusable().find(element => element !== toggle)?.focus();
+          }
+        });
+      } else if (options.restore !== false && mobileNavigation.matches) {
+        toggle.focus();
       }
     };
 
     const syncNavigationMode = () => {
-      const isMobile = window.innerWidth <= 900;
+      const isMobile = mobileNavigation.matches;
       const isOpen = toggle.getAttribute("aria-expanded") === "true";
 
       if (!isMobile) {
         toggle.setAttribute("aria-expanded", "false");
         toggle.setAttribute("aria-label", "Open navigation");
         body.classList.remove("nav-open");
-        panel.setAttribute("aria-hidden", "false");
-      } else {
-        panel.setAttribute("aria-hidden", String(!isOpen));
+      } else if (!isOpen && panel.contains(document.activeElement)) {
+        toggle.focus();
       }
+      syncPanelVisibility(isMobile && isOpen);
     };
 
     toggle.addEventListener("click", () => {
@@ -67,8 +75,24 @@
     });
 
     panel.addEventListener("click", event => {
-      if (event.target.closest("a")) {
-        setOpen(false, { restore: false });
+      const link = event.target.closest("a");
+      if (!link || toggle.getAttribute("aria-expanded") !== "true") {
+        return;
+      }
+
+      setOpen(false, { restore: false });
+
+      if (link.origin === window.location.origin &&
+          link.pathname === window.location.pathname &&
+          link.search === window.location.search && link.hash) {
+        const destination = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+        if (destination) {
+          if (!destination.hasAttribute("tabindex")) {
+            destination.setAttribute("tabindex", "-1");
+            destination.addEventListener("blur", () => destination.removeAttribute("tabindex"), { once: true });
+          }
+          destination.focus({ preventScroll: true });
+        }
       }
     });
 
@@ -99,12 +123,7 @@
       }
     });
 
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 900 && toggle.getAttribute("aria-expanded") === "true") {
-        setOpen(false, { restore: false });
-      }
-      syncNavigationMode();
-    });
+    window.addEventListener("resize", syncNavigationMode);
 
     header.addEventListener("focusin", () => header.classList.remove("is-hidden"));
     syncNavigationMode();

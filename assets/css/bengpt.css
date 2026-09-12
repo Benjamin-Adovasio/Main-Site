@@ -271,8 +271,4 @@
     min-height: 44px;
     padding-inline: 0;
   }
-
-  html:not(.js) .bengpt-hero-layout {
-    padding-top: 230px;
-  }
 }

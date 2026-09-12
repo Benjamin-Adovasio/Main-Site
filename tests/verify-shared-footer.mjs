@@ -59,14 +59,14 @@ const primaryMainPages = [
 primaryMainPages.forEach(page => {
   verifyConsumerPage(mainRoot, page);
   const source = read(mainRoot, page);
-  assert(source.includes('/assets/css/experience.css?v=15'), `${page} must cache-bust the refactored site CSS.`);
-  assert(source.includes('/assets/js/projects.js?v=13'), `${page} must cache-bust the refactored project runtime.`);
+  assert(source.includes('/assets/css/experience.css?v=16'), `${page} must cache-bust the refactored site CSS.`);
+  assert(source.includes('/assets/js/projects.js?v=14'), `${page} must cache-bust the refactored project runtime.`);
   assert(source.includes('class="nav-projects" href="/portfolio.html"'), `${page} must expose the emphasized Projects navigation link.`);
   assert(!source.includes('>Portfolio</a>'), `${page} must use the Projects label in public navigation.`);
 });
 
 verifyConsumerPage(mainRoot, "time.html");
-assert(read(mainRoot, "time.html").includes('href="/time.css?v=2"'), "Main-Site Time must cache-bust its footer-aware layout CSS.");
+assert(read(mainRoot, "time.html").includes('href="/time.css?v=3"'), "Main-Site Time must cache-bust its footer-aware layout CSS.");
 const mainPages = [...primaryMainPages, "time.html"];
 
 const head = read(mainRoot, "shared/footer/head.html");

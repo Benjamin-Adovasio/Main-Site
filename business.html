@@ -44,7 +44,7 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="/assets/css/experience.css?v=15" />
+  <link rel="stylesheet" href="/assets/css/experience.css?v=16" />
   <!--#include virtual="/_adovasio-shared/footer/head.html" -->
   <script>document.documentElement.classList.replace("no-js", "js");</script>
   <script type="application/ld+json">
@@ -75,16 +75,10 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="site-header" data-site-header>
-    <div class="site-header__inner nav-shell section-inner">
-      <a class="site-brand brand-lockup" href="/" aria-label="Adovasio Technology LLC home">
-        <img
-          class="site-brand__mark"
-          src="/assets/images/adovasio-mark-96.webp"
-          alt=""
-          width="96"
-          height="96"
-        />
-        <span class="site-brand__name">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Adovasio Technology LLC home">
+        <img src="/assets/images/adovasio-mark-96.webp" width="96" height="96" alt="" />
+        <span class="brand-copy">
           <strong>Adovasio</strong>
           <span>Technology LLC</span>
         </span>
@@ -95,25 +89,24 @@
         type="button"
         aria-expanded="false"
         aria-controls="site-menu"
+        aria-label="Open navigation"
         data-nav-toggle
       >
-        <span class="sr-only">Open navigation</span>
-        <span class="nav-toggle__lines" aria-hidden="true">
-          <span></span>
-          <span></span>
-        </span>
+        <span aria-hidden="true"></span>
       </button>
 
-      <div class="nav-panel" id="site-menu" data-nav-panel aria-hidden="true">
+      <div class="nav-panel" id="site-menu" data-nav-panel>
         <nav class="site-nav" aria-label="Primary navigation">
-          <a href="/business.html" aria-current="page" data-menu-link>Business</a>
-          <a href="/residential.html" data-menu-link>Residential</a>
-          <a class="nav-projects" href="/portfolio.html" data-menu-link>Projects</a>
-          <a href="/about.html" data-menu-link>About</a>
+          <a href="/business.html" aria-current="page">Business</a>
+          <a href="/residential.html">Residential</a>
+          <a class="nav-projects" href="/portfolio.html">Projects</a>
+          <a href="/about.html">About</a>
         </nav>
-        <a class="button button--primary button-primary nav-cta" href="/contact.html?type=business">
-          Get Started
-        </a>
+        <a class="button button-primary header-cta" href="/contact.html?type=business">Get Started</a>
+        <div class="mobile-utility">
+          <a class="utility-link" href="https://sso.adovasio.com">Client Login</a>
+          <a class="utility-link" href="mailto:info@adovasio.com">Email</a>
+        </div>
       </div>
     </div>
   </header>
@@ -357,7 +350,7 @@
 
   <!--#include virtual="/_adovasio-shared/footer/footer.html" -->
 
-  <script defer src="/assets/js/site.js"></script>
-  <script defer src="/assets/js/projects.js?v=13"></script>
+  <script defer src="/assets/js/site.js?v=2"></script>
+  <script defer src="/assets/js/projects.js?v=14"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 let baseTimeMs = null;
 let basePerf = 0;
-let currentTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+let currentTZ = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
 
 // Populate timezone selector
 function initTZSelector() {
@@ -17,6 +17,10 @@ function initTZSelector() {
     "Asia/Tokyo"
   ];
 
+  if (!zones.includes(currentTZ)) {
+    zones.push(currentTZ);
+  }
+
   zones.forEach(z => {
     const opt = document.createElement("option");
     opt.value = z;
@@ -25,16 +29,24 @@ function initTZSelector() {
   });
 
   // Restore saved TZ
-  const saved = localStorage.getItem("time.tz");
-  if (saved && zones.includes(saved)) {
-    currentTZ = saved;
+  try {
+    const saved = localStorage.getItem("time.tz");
+    if (saved && zones.includes(saved)) {
+      currentTZ = saved;
+    }
+  } catch {
+    // The clock still works when browser storage is unavailable.
   }
 
   select.value = currentTZ;
 
   select.addEventListener("change", () => {
     currentTZ = select.value;
-    localStorage.setItem("time.tz", currentTZ);
+    try {
+      localStorage.setItem("time.tz", currentTZ);
+    } catch {
+      // Keep the selected time zone for this visit.
+    }
   });
 }
 
