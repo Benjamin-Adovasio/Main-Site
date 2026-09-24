@@ -56,3 +56,25 @@ execution. SSI response validators are disabled because a shared include can
 change without changing the consumer HTML file. The HTML and stable shared URLs
 are sent with `Cache-Control: no-cache, must-revalidate`, so future Main-Site
 pulls are not hidden behind stale browser or proxy cache versions.
+
+## Reverse-proxied HTML consumers
+
+The directory blocks in `adovasio-shared-footer.conf` enable SSI for static HTML
+served from the registered document roots. A site whose HTML comes from an upstream
+application, such as the standalone Next.js server for Convert, must additionally do
+the following in that site's virtual host:
+
+1. Exclude `/_adovasio-shared/` before its catch-all `ProxyPass` so these global
+   aliases continue to serve the canonical files.
+2. Configure the upstream application to return uncompressed HTML so `mod_include`
+   can expand it. Convert disables Next's built-in compression and leaves final
+   response compression to Apache.
+3. Apply the `INCLUDES` output filter only to HTML page responses and exclude API,
+   framework-asset, and shared-asset paths.
+4. Retain `IncludesNOEXEC`, the `filter-errordocs` environment flag, disabled SSI
+   validators, and `Cache-Control: no-cache, must-revalidate` for expanded HTML.
+
+The consumer application should emit the canonical SSI directive rather than fetch
+or copy the fragment. Its integration must account for client hydration because
+Apache expands the response after application rendering. The reviewed Convert example
+is `infra/proxy/apache.conf.example` in the Convert repository.

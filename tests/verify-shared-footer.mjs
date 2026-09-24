@@ -187,7 +187,7 @@ assert(
     && footer.includes("<h3>Other Platforms</h3>"),
   "The footer must distinguish the Free Tools family from other platforms."
 );
-for (const domain of ["tools.adovasio.com", "convert.adovasio.com", "pdf.adovasio.com"]) {
+for (const domain of ["tools.adovasio.com", "convert.adovasio.com", "office.adovasio.com"]) {
   assert(
     footer.includes(`<span class="mega-footer__project-detail">${domain}</span>`),
     `The Free Tools footer group must identify ${domain}.`
@@ -314,7 +314,7 @@ assert(clientSurface.innerHTML.includes("https://sso.adovasio.com") && clientSur
 assert(toolSurface.innerHTML.includes("Free Tools") && toolSurface.innerHTML.includes("Stratum 2 NTP Server"), "Footer runtime did not render the canonical tools group.");
 assert(toolSurface.innerHTML.includes("Network &amp; Server Tools") && toolSurface.innerHTML.includes("Dedicated apps plus utilities built into tools.adovasio.com."), "Footer runtime did not explain the built-in Free Tools utilities.");
 assert(toolSurface.innerHTML.includes("https://convert.adovasio.com/") && toolSurface.innerHTML.includes("convert.adovasio.com"), "Footer runtime did not link the live File Converter.");
-assert(toolSurface.innerHTML.includes("https://pdf.adovasio.com/") && toolSurface.innerHTML.includes("pdf.adovasio.com"), "Footer runtime did not group PDF Tools under Free Tools.");
+assert(toolSurface.innerHTML.includes("https://office.adovasio.com/") && toolSurface.innerHTML.includes("office.adovasio.com"), "Footer runtime did not group PDF Tools under Free Tools.");
 assert(iosSurface.innerHTML.includes("Georgie AI") && iosSurface.innerHTML.includes("Guardian Campus Safety"), "Footer runtime did not render the canonical iOS group.");
 assert(iosSurface.innerHTML.includes("Sift") && iosSurface.innerHTML.includes("BillLens"), "Footer runtime omitted in-progress iOS projects.");
 assert(toolSurface.innerHTML.includes("File Converter"), "Footer runtime omitted the live File Converter.");

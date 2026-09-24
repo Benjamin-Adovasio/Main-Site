@@ -367,8 +367,8 @@
       "id": "pdf-tools",
       "slug": "pdf-tools",
       "name": "PDF Tools",
-      "domain": "pdf.adovasio.com",
-      "url": "https://pdf.adovasio.com",
+      "domain": "office.adovasio.com",
+      "url": "https://office.adovasio.com",
       "tagline": "Practical PDF workflows",
       "description": "Adovasio-hosted tools for organizing, converting, compressing, and managing PDF documents.",
       "category": "Tools",
@@ -378,7 +378,7 @@
       "placements": {
         "footer-tools": 3
       },
-      "footerDetail": "pdf.adovasio.com",
+      "footerDetail": "office.adovasio.com",
       "status": "live",
       "order": 15,
       "visual": {
